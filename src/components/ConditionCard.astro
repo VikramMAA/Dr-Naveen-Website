@@ -1,0 +1,65 @@
+---
+import Icon from "./icons/Icon.astro";
+import Card from "./Card.astro";
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+}
+const { icon, title, description, href } = Astro.props;
+---
+
+<Card as="li" class="condition-card">
+  <a href={href} class="condition-card__link">
+    <span class="condition-card__icon">
+      <Icon name={icon as any} size={32} />
+    </span>
+    <span class="condition-card__title">{title}</span>
+    <span class="condition-card__description">{description}</span>
+  </a>
+</Card>
+
+<style>
+  .condition-card {
+    list-style: none;
+    padding: var(--space-5);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .condition-card:hover,
+  .condition-card:has(:focus-visible) {
+    border-color: var(--teal);
+  }
+
+  .condition-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .condition-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-card);
+    background: var(--teal-tint);
+    margin-bottom: var(--space-2);
+  }
+
+  .condition-card__title {
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: var(--navy);
+  }
+
+  .condition-card__description {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+</style>

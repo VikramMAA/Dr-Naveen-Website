@@ -1,0 +1,46 @@
+---
+interface Props {
+  questions: string[];
+}
+const { questions } = Astro.props;
+---
+
+<ol class="question-list">
+  {questions.map((question) => (
+    <li>
+      <span class="question-list__text">{question}</span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .question-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: question;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .question-list li {
+    counter-increment: question;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+
+  .question-list li::before {
+    content: counter(question);
+    flex: 0 0 auto;
+    font-weight: 800;
+    font-size: var(--font-size-h3);
+    color: var(--teal);
+    line-height: 1;
+  }
+
+  .question-list__text {
+    color: var(--navy);
+  }
+</style>

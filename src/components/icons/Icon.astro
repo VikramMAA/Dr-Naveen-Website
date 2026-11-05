@@ -1,0 +1,133 @@
+---
+// Small line icons in the site's illustration style: navy outline strokes
+// (~2.5px, rounded caps), teal fill for highlighted details. Built as
+// inline SVG. Pass `title` for a meaningful icon, omit it for a purely
+// decorative one (it is then hidden from assistive tech).
+interface Props {
+  name:
+    | "knee"
+    | "football"
+    | "shoulder"
+    | "joint"
+    | "arthroscope"
+    | "fracture"
+    | "phone"
+    | "calendar"
+    | "globe"
+    | "check"
+    | "warning"
+    | "menu"
+    | "close";
+  title?: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, title, size = 28, class: className } = Astro.props;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 48 48"
+  width={size}
+  height={size}
+  fill="none"
+  stroke="var(--navy)"
+  stroke-width="2.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  role={title ? "img" : undefined}
+  aria-hidden={title ? undefined : "true"}
+  class={className}
+>
+  {title && <title>{title}</title>}
+
+  {name === "knee" && (
+    <>
+      <path d="M20 6c0 6-1 9-5 13s-5 7-5 12a9 9 0 0 0 18 0v-6" />
+      <path d="M28 6c0 6 2 10 6 13s5 7 5 12a9 9 0 0 1-18 0" />
+      <circle cx="24" cy="30" r="4" fill="var(--teal)" stroke="none" />
+    </>
+  )}
+
+  {name === "football" && (
+    <>
+      <circle cx="24" cy="24" r="16" />
+      <path
+        d="M24 14l6 4.4-2.3 7h-7.4L18 18.4z"
+        fill="var(--teal)"
+        stroke="var(--navy)"
+      />
+      <path d="M24 8v6M24 40v-6M10 24h6M38 24h-6M14 14l4.5 4M34 14l-4.5 4M14 34l4.5-4M34 34l-4.5-4" />
+    </>
+  )}
+
+  {name === "shoulder" && (
+    <>
+      <path d="M8 30c2-10 8-18 16-18s14 8 16 18" />
+      <circle cx="24" cy="22" r="6" fill="var(--teal)" stroke="var(--navy)" />
+      <path d="M12 30v8M36 30v8" />
+    </>
+  )}
+
+  {name === "joint" && (
+    <>
+      <path d="M10 18h10v12H10z" />
+      <path d="M28 18h10v12H28z" />
+      <circle cx="24" cy="24" r="5" fill="var(--teal)" stroke="none" />
+    </>
+  )}
+
+  {name === "arthroscope" && (
+    <>
+      <path d="M10 30l10-10" />
+      <rect x="18" y="10" width="20" height="10" rx="3" transform="rotate(45 28 15)" />
+      <circle cx="12" cy="36" r="4" fill="var(--teal)" stroke="var(--navy)" />
+    </>
+  )}
+
+  {name === "fracture" && (
+    <>
+      <path d="M10 24h8l4-7 4 14 4-7h8" />
+      <circle cx="10" cy="24" r="3" fill="var(--teal)" stroke="none" />
+      <circle cx="38" cy="24" r="3" fill="var(--teal)" stroke="none" />
+    </>
+  )}
+
+  {name === "phone" && (
+    <path d="M16 8h6l2 7-4 3c2 5 5 8 10 10l3-4 7 2v6c0 2-2 4-4 4-14-1-24-11-25-25 0-2 2-3 5-3z" />
+  )}
+
+  {name === "calendar" && (
+    <>
+      <rect x="8" y="10" width="32" height="28" rx="4" />
+      <path d="M8 18h32M16 6v8M32 6v8" />
+    </>
+  )}
+
+  {name === "globe" && (
+    <>
+      <circle cx="24" cy="24" r="16" />
+      <path d="M8 24h32M24 8c5 4 8 10 8 16s-3 12-8 16c-5-4-8-10-8-16s3-12 8-16z" />
+    </>
+  )}
+
+  {name === "check" && (
+    <>
+      <circle cx="24" cy="24" r="16" fill="var(--teal)" stroke="none" />
+      <path d="M16 25l6 6 11-13" stroke="var(--white)" />
+    </>
+  )}
+
+  {name === "warning" && (
+    <>
+      <path d="M24 8l18 32H6z" stroke="var(--red)" />
+      <path d="M24 20v8" stroke="var(--red)" />
+      <circle cx="24" cy="33" r="1.6" fill="var(--red)" stroke="none" />
+    </>
+  )}
+
+  {name === "menu" && <path d="M8 14h32M8 24h32M8 34h32" />}
+
+  {name === "close" && <path d="M12 12l24 24M36 12L12 36" />}
+</svg>

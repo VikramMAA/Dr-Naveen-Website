@@ -1,0 +1,92 @@
+---
+// Privacy-enhanced YouTube embed: no network request to YouTube until the
+// viewer clicks play (facade pattern), and youtube-nocookie.com after that.
+interface Props {
+  videoId: string;
+  title: string;
+}
+const { videoId, title } = Astro.props;
+const thumbnail = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+---
+
+<div class="video-embed" data-video-id={videoId} data-video-title={title}>
+  <button type="button" class="video-embed__facade" aria-label={`Play video: ${title}`}>
+    <img src={thumbnail} alt="" loading="lazy" width="480" height="360" />
+    <span class="video-embed__play" aria-hidden="true">
+      <svg viewBox="0 0 68 48" width="68" height="48">
+        <path
+          d="M66.5 7.7c-.8-2.9-2.5-5.2-5.4-6C55.8 0 34 0 34 0S12.2 0 6.9 1.7c-2.9.8-4.6 3.1-5.4 6C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.1 5.4 6C12.2 48 34 48 34 48s21.8 0 27.1-1.7c2.9-.9 4.6-3.1 5.4-6C68 35 68 24 68 24s0-11-1.5-16.3z"
+          fill="var(--red)"
+        />
+        <path d="M27 34l17-10-17-10v20z" fill="var(--white)" />
+      </svg>
+    </span>
+  </button>
+  <p class="video-embed__caption">{title}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".video-embed").forEach((wrapper) => {
+    const facade = wrapper.querySelector<HTMLButtonElement>(".video-embed__facade");
+    facade?.addEventListener("click", () => {
+      const videoId = wrapper.dataset.videoId;
+      const title = wrapper.dataset.videoTitle ?? "Video";
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+      iframe.title = title;
+      iframe.loading = "eager";
+      iframe.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
+      iframe.setAttribute("allowfullscreen", "true");
+      iframe.width = "480";
+      iframe.height = "360";
+      wrapper.replaceChildren(iframe);
+    });
+  });
+</script>
+
+<style>
+  .video-embed {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: var(--navy);
+  }
+
+  .video-embed__facade {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: var(--navy);
+  }
+
+  .video-embed__facade img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-embed__play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-embed iframe {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: none;
+    display: block;
+  }
+
+  .video-embed__caption {
+    margin: 0;
+    padding: var(--space-3) var(--space-4);
+    color: var(--offwhite);
+    font-size: 1rem;
+  }
+</style>

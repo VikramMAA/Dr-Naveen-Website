@@ -1,0 +1,56 @@
+---
+// Decorative front-view line drawing of a right knee, used as the backdrop
+// for the KneeMap component. Purely illustrative: aria-hidden, the real
+// interaction and text live in KneeMap's buttons and panel.
+---
+
+<svg
+  viewBox="0 0 300 420"
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  stroke="var(--navy)"
+  stroke-width="3"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  preserveAspectRatio="xMidYMid meet"
+>
+  <!-- Thigh and shin outline -->
+  <path
+    d="M112 8
+       C 90 55, 84 105, 94 148
+       C 80 172, 78 196, 92 216
+       C 82 260, 80 340, 88 410
+       L 128 412
+       C 124 340, 128 262, 140 220
+       L 160 220
+       C 172 262, 176 340, 172 412
+       L 212 410
+       C 220 340, 218 260, 208 216
+       C 222 196, 220 172, 206 148
+       C 216 105, 210 55, 188 8
+       C 170 2, 130 2, 112 8 Z"
+  />
+
+  <!-- Kneecap (patella) -->
+  <path
+    d="M150 158 L178 186 L150 222 L122 186 Z"
+    fill="var(--teal-tint)"
+  />
+
+  <!-- Soft joint-line indicator -->
+  <path d="M96 214 C 120 226, 180 226, 204 214" stroke="var(--line)" stroke-width="2" />
+
+  <!-- Dashed leader line from the back-of-knee marker out to its label -->
+  <path d="M206 228 L 258 228" stroke-dasharray="4 5" stroke-width="2" />
+  <text
+    x="262"
+    y="232"
+    font-family="var(--font-sans)"
+    font-size="16"
+    font-weight="700"
+    fill="var(--navy)"
+    stroke="none"
+    >Back</text
+  >
+</svg>

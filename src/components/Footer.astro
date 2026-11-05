@@ -1,0 +1,103 @@
+---
+import { site } from "@/config/site";
+
+const year = new Date().getFullYear();
+
+const socialLinks = [
+  { label: "Facebook", href: site.social.facebook },
+  { label: "Instagram", href: site.social.instagram },
+  { label: "YouTube", href: site.social.youtube },
+  { label: "LinkedIn", href: site.social.linkedin },
+].filter((link) => link.href);
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__wordmark">{site.name}</p>
+      <p>{site.title} | {site.qualifications}</p>
+      <p>
+        Consultations: {site.hospital.name}, {site.hospital.addressLines.join(", ")} |{" "}
+        <a href={site.phone.tel}>{site.phone.display}</a>
+      </p>
+    </div>
+
+    {socialLinks.length > 0 && (
+      <nav aria-label="Social media" class="site-footer__social">
+        <ul>
+          {socialLinks.map((link) => (
+            <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <p class="site-footer__hashtag">{site.hashtag}</p>
+
+    <nav aria-label="Legal" class="site-footer__legal">
+      <ul>
+        <li><a href="/medical-disclaimer">Medical disclaimer</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
+
+    <p class="site-footer__copyright">© {year} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: var(--offwhite);
+    margin-top: var(--space-8);
+  }
+
+  .site-footer__inner {
+    padding-block: var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .site-footer a {
+    color: var(--offwhite);
+  }
+
+  .site-footer a:hover,
+  .site-footer a:focus-visible {
+    color: var(--teal);
+  }
+
+  .site-footer__wordmark {
+    font-weight: 800;
+    font-size: 1.15rem;
+    margin: 0 0 var(--space-2);
+  }
+
+  .site-footer__about p {
+    margin: 0 0 var(--space-1);
+    max-width: none;
+  }
+
+  .site-footer__social ul,
+  .site-footer__legal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .site-footer__hashtag {
+    color: var(--teal);
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .site-footer__copyright {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+</style>

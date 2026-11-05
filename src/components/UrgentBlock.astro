@@ -1,0 +1,55 @@
+---
+import Icon from "./icons/Icon.astro";
+
+interface Props {
+  heading?: string;
+}
+const { heading = "See a doctor urgently if:" } = Astro.props;
+---
+
+<div class="urgent-block">
+  <div class="urgent-block__header">
+    <Icon name="warning" title="Urgent warning" size={28} />
+    <p class="urgent-block__heading">{heading}</p>
+  </div>
+  <div class="urgent-block__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .urgent-block {
+    background: var(--white);
+    border: 3px solid var(--red);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+  }
+
+  .urgent-block__header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .urgent-block__heading {
+    margin: 0;
+    font-weight: 800;
+    color: var(--navy);
+    font-size: 1.1rem;
+  }
+
+  .urgent-block__body :global(ul) {
+    margin: 0;
+    padding-left: 1.2em;
+    color: var(--navy);
+  }
+
+  .urgent-block__body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .urgent-block__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

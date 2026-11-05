@@ -1,0 +1,54 @@
+---
+import { site } from "@/config/site";
+import Icon from "./icons/Icon.astro";
+
+interface Props {
+  variant?: "primary" | "secondary";
+  class?: string;
+  label?: string;
+}
+const { variant = "primary", class: className, label } = Astro.props;
+---
+
+<a href={site.phone.tel} class:list={["call-button", variant, className]}>
+  <Icon name="phone" size={20} />
+  <span>{label ?? `Call ${site.phone.display}`}</span>
+</a>
+
+<style>
+  .call-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    padding: 0.85em 1.6em;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .call-button :global(svg) {
+    stroke: currentColor;
+  }
+
+  .primary {
+    background: var(--teal);
+    color: var(--white);
+  }
+
+  .primary:hover,
+  .primary:focus-visible {
+    background: var(--teal-dark);
+  }
+
+  .secondary {
+    background: var(--white);
+    color: var(--navy);
+    border: 2px solid var(--teal);
+  }
+
+  .secondary:hover,
+  .secondary:focus-visible {
+    background: var(--teal-tint);
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+interface Row {
+  label: string;
+  left: string;
+  right: string;
+}
+interface Props {
+  leftHeading: string;
+  rightHeading: string;
+  rows: Row[];
+  caption?: string;
+}
+const { leftHeading, rightHeading, rows, caption } = Astro.props;
+---
+
+<table class="comparison-table">
+  {caption && <caption class="visually-hidden">{caption}</caption>}
+  <thead>
+    <tr>
+      <th scope="col"><span class="visually-hidden">Topic</span></th>
+      <th scope="col">{leftHeading}</th>
+      <th scope="col">{rightHeading}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {rows.map((row) => (
+      <tr>
+        <th scope="row">{row.label}</th>
+        <td data-heading={leftHeading}>{row.left}</td>
+        <td data-heading={rightHeading}>{row.right}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+<style>
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    text-align: left;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .comparison-table thead th {
+    background: var(--teal-tint);
+    color: var(--navy);
+    font-weight: 800;
+  }
+
+  .comparison-table tbody th {
+    font-weight: 700;
+    color: var(--navy);
+    width: 30%;
+  }
+
+  .comparison-table tr:last-child th,
+  .comparison-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  @media (max-width: 640px) {
+    .comparison-table thead {
+      display: none;
+    }
+
+    .comparison-table,
+    .comparison-table tbody,
+    .comparison-table tr {
+      display: block;
+      width: 100%;
+    }
+
+    .comparison-table tr {
+      border-bottom: 1px solid var(--line);
+      padding: var(--space-3) 0;
+    }
+
+    .comparison-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      display: block;
+      border-bottom: none;
+      padding: var(--space-1) var(--space-4);
+      width: 100%;
+    }
+
+    .comparison-table tbody th {
+      padding-top: var(--space-3);
+    }
+
+    .comparison-table td::before {
+      content: attr(data-heading) ": ";
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+  }
+</style>

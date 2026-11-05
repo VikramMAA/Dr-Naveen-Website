@@ -1,0 +1,70 @@
+---
+import { site } from "@/config/site";
+import Icon from "./icons/Icon.astro";
+---
+
+<div class="mobile-call-bar" role="region" aria-label="Call Dr Naveen Govind">
+  <a href={site.phone.tel} class="mobile-call-bar__call">
+    <Icon name="phone" size={18} />
+    <span>Call {site.phone.display}</span>
+  </a>
+  {site.whatsapp.enabled && (
+    <a
+      href={site.whatsapp.url}
+      class="mobile-call-bar__whatsapp"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      WhatsApp
+    </a>
+  )}
+</div>
+
+<style>
+  .mobile-call-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    background: var(--navy);
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--gutter);
+    padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  }
+
+  .mobile-call-bar__call,
+  .mobile-call-bar__whatsapp {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.75em 1em;
+    border-radius: var(--radius-pill);
+  }
+
+  .mobile-call-bar__call {
+    background: var(--teal);
+    color: var(--white);
+  }
+
+  .mobile-call-bar__call :global(svg) {
+    stroke: var(--white);
+  }
+
+  .mobile-call-bar__whatsapp {
+    background: transparent;
+    color: var(--offwhite);
+    border: 2px solid var(--offwhite);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-call-bar {
+      display: none;
+    }
+  }
+</style>

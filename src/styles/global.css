@@ -1,0 +1,146 @@
+/* Self-hosted fonts: no runtime request to Google Fonts. */
+@import "@fontsource-variable/manrope";
+@import "@fontsource/noto-sans-malayalam";
+
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--offwhite);
+  color: var(--navy);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--font-size-body);
+  line-height: 1.6;
+}
+
+/* Room for the sticky mobile call bar below 768px; see MobileCallBar. */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 76px;
+  }
+}
+
+:lang(ml) {
+  font-family: var(--font-malayalam);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 var(--space-4);
+  color: var(--navy);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+  max-width: 68ch;
+}
+
+a {
+  color: var(--teal);
+  text-decoration-color: var(--teal);
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--teal-dark);
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+ul,
+ol {
+  padding-left: 1.2em;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Visible, consistent focus ring across the site. */
+:focus-visible {
+  outline: 3px solid var(--teal-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -60px;
+  background: var(--navy);
+  color: var(--offwhite);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-card);
+  z-index: 1000;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-3);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-muted {
+  color: var(--muted);
+}

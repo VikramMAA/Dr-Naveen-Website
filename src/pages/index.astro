@@ -1,0 +1,32 @@
+---
+// Temporary placeholder home page used to verify the build while waiting
+// for Part 2 of the brief (exact page content). Will be replaced in full.
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import KneeMap from "@/components/KneeMap.astro";
+import UrgentBlock from "@/components/UrgentBlock.astro";
+import KneeShoulderPairIllustration from "@/components/illustrations/KneeShoulderPairIllustration.astro";
+---
+
+<BaseLayout
+  title="Dr Naveen Govind, Orthopaedic Surgeon, Kochi"
+  description="Dr Naveen Govind is an orthopaedic surgeon consulting at Welcare Hospital, Vyttila, Ernakulam."
+>
+  <section class="container">
+    <SectionHeading as="h1">Dr Naveen Govind</SectionHeading>
+    <KneeShoulderPairIllustration title="Knee and shoulder, the joints Dr Naveen treats" />
+    <p>
+      This page is a build-stage placeholder while the full site copy is being
+      prepared. The components below are being verified before the final
+      pages are written.
+    </p>
+
+    <KneeMap />
+
+    <UrgentBlock>
+      <ul>
+        <li>Placeholder: urgent knee warning signs go here (pending Part 2 content).</li>
+      </ul>
+    </UrgentBlock>
+  </section>
+</BaseLayout>

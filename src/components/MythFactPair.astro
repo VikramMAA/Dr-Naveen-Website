@@ -1,0 +1,64 @@
+---
+interface Props {
+  myth: string;
+  fact: string;
+}
+const { myth, fact } = Astro.props;
+---
+
+<div class="myth-fact">
+  <div class="myth-fact__row myth-fact__row--myth">
+    <span class="pill pill--amber">Myth</span>
+    <p>{myth}</p>
+  </div>
+  <div class="myth-fact__row myth-fact__row--fact">
+    <span class="pill pill--teal">Fact</span>
+    <p>{fact}</p>
+  </div>
+</div>
+
+<style>
+  .myth-fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+  }
+
+  .myth-fact__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  .myth-fact__row p {
+    margin: 0;
+    color: var(--navy);
+  }
+
+  .pill {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 0.3em 0.9em;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
+  }
+
+  .pill--amber {
+    background: var(--amber);
+  }
+
+  .pill--teal {
+    background: var(--teal);
+  }
+</style>

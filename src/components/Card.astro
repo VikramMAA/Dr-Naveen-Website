@@ -1,0 +1,20 @@
+---
+interface Props {
+  class?: string;
+  as?: "div" | "li" | "article";
+}
+const { class: className, as: Tag = "div" } = Astro.props;
+---
+
+<Tag class:list={["card", className]}>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+  }
+</style>

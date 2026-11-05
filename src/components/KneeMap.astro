@@ -1,0 +1,225 @@
+---
+// Signature "Where does your knee hurt?" interactive map (brief section 6).
+// Zone positions and wording are approved by Dr Naveen; do not reword or
+// reposition them. Place an UrgentBlock directly below this component on
+// the page (content comes from the relevant patient guide).
+import KneeFrontIllustration from "./illustrations/KneeFrontIllustration.astro";
+
+const zones = [
+  {
+    id: "front",
+    number: 1,
+    label: "Front",
+    left: 50,
+    top: 44,
+    text:
+      "Front of the knee. Around or behind the kneecap. Worse on stairs, squatting or after sitting for long. Often the kneecap joint (patellofemoral pain), or the tendon just below the kneecap in people who run and jump.",
+  },
+  {
+    id: "inner",
+    number: 2,
+    label: "Inner side",
+    left: 71.6,
+    top: 44,
+    text:
+      "Inner side. A common place for early wear and tear (osteoarthritis). Can also be a meniscus tear or a sprained inner ligament (MCL).",
+  },
+  {
+    id: "outer",
+    number: 3,
+    label: "Outer side",
+    left: 28.3,
+    top: 44,
+    text:
+      "Outer side. Common in runners and cyclists (IT band irritation). Can also be a meniscus tear or an outer ligament (LCL) injury.",
+  },
+  {
+    id: "back",
+    number: 4,
+    label: "Back",
+    left: 68.3,
+    top: 54.8,
+    text:
+      "Back of the knee. A soft swelling here may be a fluid-filled Baker's cyst. Pain after sprinting may be a hamstring strain.",
+  },
+  {
+    id: "whole",
+    number: 5,
+    label: "Whole knee",
+    left: 50,
+    top: 59.5,
+    text:
+      "The whole knee, stiff after rest. Stiffness in the morning or after sitting that eases as you move. Often in both knees. A common pattern in osteoarthritis.",
+  },
+];
+---
+
+<div class="knee-map" data-knee-map>
+  <h3 class="knee-map__heading">Where does your knee hurt?</h3>
+  <div class="knee-map__layout">
+    <div class="knee-map__drawing">
+      <KneeFrontIllustration />
+      {zones.map((zone) => (
+        <button
+          type="button"
+          class="knee-map__zone"
+          style={`left:${zone.left}%; top:${zone.top}%;`}
+          data-zone={zone.id}
+          aria-pressed="false"
+        >
+          <span class="knee-map__zone-number" aria-hidden="true">{zone.number}</span>
+          <span class="visually-hidden">{zone.label}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="knee-map__panel" data-knee-map-panel aria-live="polite">
+      <p class="knee-map__panel-placeholder" data-knee-map-placeholder>
+        Select a zone on the knee to read about pain in that area.
+      </p>
+    </div>
+  </div>
+
+  <noscript>
+    <ol class="knee-map__fallback">
+      {zones.map((zone) => (
+        <li>
+          <strong>{zone.number}. {zone.label}.</strong> {zone.text}
+        </li>
+      ))}
+    </ol>
+  </noscript>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-knee-map]").forEach((map) => {
+    const zoneData: Record<string, string> = {
+      front:
+        "Front of the knee. Around or behind the kneecap. Worse on stairs, squatting or after sitting for long. Often the kneecap joint (patellofemoral pain), or the tendon just below the kneecap in people who run and jump.",
+      inner:
+        "Inner side. A common place for early wear and tear (osteoarthritis). Can also be a meniscus tear or a sprained inner ligament (MCL).",
+      outer:
+        "Outer side. Common in runners and cyclists (IT band irritation). Can also be a meniscus tear or an outer ligament (LCL) injury.",
+      back:
+        "Back of the knee. A soft swelling here may be a fluid-filled Baker's cyst. Pain after sprinting may be a hamstring strain.",
+      whole:
+        "The whole knee, stiff after rest. Stiffness in the morning or after sitting that eases as you move. Often in both knees. A common pattern in osteoarthritis.",
+    };
+
+    const buttons = Array.from(map.querySelectorAll<HTMLButtonElement>(".knee-map__zone"));
+    const panel = map.querySelector<HTMLElement>("[data-knee-map-panel]");
+    const placeholder = map.querySelector<HTMLElement>("[data-knee-map-placeholder]");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const zoneId = button.dataset.zone ?? "";
+        const alreadyActive = button.getAttribute("aria-pressed") === "true";
+
+        buttons.forEach((b) => b.setAttribute("aria-pressed", "false"));
+        placeholder?.remove();
+
+        if (alreadyActive) {
+          if (panel) panel.innerHTML =
+            '<p class="knee-map__panel-placeholder">Select a zone on the knee to read about pain in that area.</p>';
+          return;
+        }
+
+        button.setAttribute("aria-pressed", "true");
+        if (panel) {
+          const p = document.createElement("p");
+          p.className = "knee-map__panel-text";
+          p.textContent = zoneData[zoneId] ?? "";
+          panel.replaceChildren(p);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .knee-map {
+    background: var(--teal-tint);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+  }
+
+  .knee-map__heading {
+    margin-bottom: var(--space-5);
+    text-align: center;
+  }
+
+  .knee-map__layout {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .knee-map__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+    }
+  }
+
+  .knee-map__drawing {
+    position: relative;
+    max-width: 320px;
+    margin-inline: auto;
+    aspect-ratio: 300 / 420;
+  }
+
+  .knee-map__zone {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--teal);
+    background: var(--white);
+    color: var(--teal-dark);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .knee-map__zone:hover {
+    background: var(--teal-tint);
+  }
+
+  .knee-map__zone[aria-pressed="true"] {
+    background: var(--teal);
+    color: var(--white);
+    border-color: var(--teal-dark);
+  }
+
+  .knee-map__zone-number {
+    font-size: 0.95rem;
+  }
+
+  .knee-map__panel {
+    background: var(--white);
+    border-radius: var(--radius-card);
+    padding: var(--space-5);
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+  }
+
+  .knee-map__panel-placeholder,
+  .knee-map__panel-text {
+    margin: 0;
+    color: var(--navy);
+  }
+
+  .knee-map__fallback {
+    margin-top: var(--space-5);
+    padding-left: 1.2em;
+    color: var(--navy);
+  }
+
+  .knee-map__fallback li {
+    margin-bottom: var(--space-3);
+  }
+</style>

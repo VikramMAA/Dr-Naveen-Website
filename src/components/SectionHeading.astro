@@ -1,0 +1,42 @@
+---
+interface Props {
+  as?: "h1" | "h2" | "h3";
+  align?: "left" | "center";
+  class?: string;
+}
+const { as: Tag = "h2", align = "left", class: className } = Astro.props;
+---
+
+<div class:list={["section-heading", `section-heading--${align}`, className]}>
+  <Tag><slot /></Tag>
+  <span class="section-heading__bar" aria-hidden="true"></span>
+  <slot name="subtitle" />
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .section-heading--center {
+    text-align: center;
+  }
+
+  .section-heading--center .section-heading__bar {
+    margin-inline: auto;
+  }
+
+  .section-heading h1,
+  .section-heading h2,
+  .section-heading h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .section-heading__bar {
+    display: block;
+    width: 64px;
+    height: 6px;
+    background: var(--teal);
+    border-radius: var(--radius-pill);
+  }
+</style>
