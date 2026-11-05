@@ -19,9 +19,9 @@ For Vikram and Dr Naveen. Tick each item when it is done. Every placeholder live
 
 ## 2. Assets
 
-- [ ] **Headshot** at `src/assets/dr-naveen-headshot.jpg` (placeholder card "Photo of Dr Naveen Govind" shows until then). Used on Home and About.
-- [ ] **Welcare logo** at `src/assets/welcare-logo.png` (placeholder shows until then). Used only in "Where I consult" and on Contact.
-- [ ] After adding the headshot, re-run `npm run qa:lighthouse` (it becomes the largest image on Home).
+- [x] **Headshot** added at `src/assets/dr-naveen-headshot.webp`. Used on Home and About, and as the image in the doctor schema.
+- [x] **Welcare logo** added at `src/assets/welcare-logo.png`. Used only in "Where I consult" and on Contact. Written permission from the hospital is still needed (see open questions).
+- [x] Lighthouse re-run with the headshot (see QA results).
 
 ## 3. Clinical pages awaiting approval
 
@@ -91,10 +91,10 @@ All drafted with `lang="ml"`, hidden because `showMalayalam: false`. Need a nati
 | Content Security Policy | No console errors on any page with the `netlify.toml` CSP applied |
 | Total JavaScript | About 2 KB (1.4 KB gzipped) across all pages |
 
-Lighthouse, mobile (Lighthouse 13.6, against `astro preview`, placeholder headshot):
+Lighthouse, mobile (Lighthouse 13.6, against `astro preview`, real headshot and logo):
 
 | Page | Performance | Accessibility | Best Practices | SEO | LCP |
 |---|---|---|---|---|---|
-| Home `/` | 100 | 100 | 100 | 100 | 0.8 s |
+| Home `/` | 98 | 100 | 100 | 100 | 1.4 s |
 | Knee map guide `/guides/knee-pain-by-location` | 100 | 100 | 100 | 100 | 0.8 s |
 | Contact `/contact` | 100 | 100 | 100 | 100 | 0.9 s |

@@ -13,7 +13,7 @@ const img = Object.values(files)[0]?.default;
 
 {
   img ? (
-    <Image src={img} alt={site.hospital.logoAlt} width={160} class="hospital-logo" loading="lazy" />
+    <Image src={img} alt={site.hospital.logoAlt} width={160} densities={[1, 2]} class="hospital-logo" loading="lazy" />
   ) : (
     <div class="hospital-logo hospital-logo--placeholder" role="img" aria-label={`${site.hospital.logoAlt} logo (to be added)`}>
       <span>{site.hospital.name} logo</span>

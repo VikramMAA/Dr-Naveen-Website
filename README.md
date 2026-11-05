@@ -88,7 +88,7 @@ Condition pages work the same way in `src/content/conditions/`.
 
 ## Replace the headshot and hospital logo
 
-- Headshot: save the photo as `src/assets/dr-naveen-headshot.jpg` (portrait, at least 1000px wide, shoulders up). It replaces the placeholder on Home and About and is optimised automatically (AVIF, responsive sizes).
+- Headshot: save the photo as `src/assets/dr-naveen-headshot.jpg` (or `.webp` / `.png`; the current one is `.webp`, delete it first) (portrait, at least 1000px wide, shoulders up). It replaces the placeholder on Home and About and is optimised automatically (AVIF, responsive sizes).
 - Welcare logo: save it as `src/assets/welcare-logo.png`, only after written permission from the hospital. It shows only in "Where I consult" and on Contact.
 
 No code changes are needed for either.
