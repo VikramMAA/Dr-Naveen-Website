@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Headshot from '../components/Headshot.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Checklist from '../components/Checklist.astro';
+import WhereIConsult from '../components/WhereIConsult.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import { site, socialLinks, isSet } from '../config/site';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+];
+---
+
+<BaseLayout
+  title="About Dr Naveen Govind | Orthopaedic Surgeon, Kochi"
+  description="Dr Naveen Govind, MBBS, MS (Orthopaedics), is an orthopaedic surgeon in Kochi. How he works, what he treats, and where he consults in Vyttila."
+  path="/about"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container about">
+      <div class="about__photo">
+        <Headshot priority sizes="(min-width: 900px) 380px, 80vw" />
+      </div>
+      <div class="about__text">
+        <header class="page-head">
+          <p class="eyebrow">{site.title}</p>
+          <h1>About {site.name}</h1>
+        </header>
+        <p class="lead">
+          I'm {site.name}, an orthopaedic surgeon in Kochi. I hold an MBBS and an MS in Orthopaedics. I treat knee pain and
+          arthritis, sports injuries, shoulder problems and fractures, and I perform joint replacement and keyhole (arthroscopic)
+          surgery.
+        </p>
+        {isSet(site.educationAndTraining) && <p>{site.educationAndTraining}</p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="how-heading">
+    <div class="container">
+      <SectionHeading id="how-heading">How I work</SectionHeading>
+      <Checklist
+        items={[
+          'I find the right treatment for each patient, and I explain my reasoning clearly, whether that is surgery or not.',
+          'I respect physiotherapy and rehabilitation. Many problems get better with the right exercise, and recovery after surgery depends on it.',
+          'I make time for families’ questions, including family members who join by phone from abroad.',
+        ]}
+      />
+      <p>
+        Not every visit ends in surgery. Many problems get better with physiotherapy, exercise and time. My job is to tell you
+        which ones will, and which ones won't.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="where-heading">
+    <div class="container consult-wrap">
+      <div>
+        <SectionHeading id="where-heading">Where I consult</SectionHeading>
+        <p>I consult at {site.hospital.name}, {site.hospital.locality}, {site.hospital.city}.</p>
+      </div>
+      <WhereIConsult />
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="follow-heading">
+    <div class="container">
+      <SectionHeading id="follow-heading">Follow for plain answers on knees, shoulders and sports injuries</SectionHeading>
+      {
+        socialLinks.length > 0 ? (
+          <ul class="social">
+            {socialLinks.map((s) => (
+              <li>
+                <a href={s.url} rel="noopener me">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Links to my social profiles will appear here soon. Meanwhile, see my <a href="/videos">videos</a> and <a href="/guides">patient guides</a>.</p>
+        )
+      }
+      <p class="ask">Send me your question: <strong>{site.hashtag}</strong></p>
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .about__photo {
+    width: min(100%, 320px);
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: 380px 1fr;
+      gap: var(--space-5);
+    }
+    .about__photo {
+      width: 100%;
+    }
+  }
+  .consult-wrap {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 900px) {
+    .consult-wrap {
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-5);
+      align-items: start;
+    }
+  }
+  .social {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    font-weight: 800;
+  }
+  .social a {
+    display: inline-block;
+    padding-block: 0.6rem;
+  }
+  .ask {
+    font-size: var(--fs-lead);
+  }
+</style>

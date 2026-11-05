@@ -1,0 +1,55 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReviewNote from '../../components/ReviewNote.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import CallPanel from '../../components/CallPanel.astro';
+import Sources from '../../components/Sources.astro';
+import MalayalamSummary from '../../components/MalayalamSummary.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import { getConditions, guidesBySlug, conditionHref } from '../../lib/content';
+import { faqSchema, medicalWebPageSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const conditions = await getConditions();
+  return conditions.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const path = conditionHref(entry);
+const related = await guidesBySlug(d.relatedGuides);
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'What I treat', href: '/what-i-treat' },
+  { name: d.cardTitle, href: path },
+];
+const schema = [
+  medicalWebPageSchema({ path, name: d.title, description: d.description, about: d.about, reviewStatus: d.reviewStatus, updated: d.updated }),
+  ...(d.faqs.length ? [faqSchema(d.faqs)] : []),
+];
+---
+
+<BaseLayout title={d.seoTitle} description={d.description} path={path} breadcrumbs={breadcrumbs} schema={schema} ogType="article">
+  <article class="section section--tight">
+    <div class="container article">
+      <header class="page-head">
+        <p class="eyebrow">What I treat</p>
+        <h1>{d.title}</h1>
+        <p class="lead">{d.intro}</p>
+        <ReviewNote status={d.reviewStatus} updated={d.updated} />
+      </header>
+      <div class="prose">
+        <Content />
+      </div>
+      <RelatedGuides guides={related} />
+      <CallPanel />
+      <FAQ faqs={d.faqs} />
+      <Sources sources={d.sources} />
+      <MalayalamSummary text={d.malayalamSummary} />
+      <Disclaimer />
+    </div>
+  </article>
+</BaseLayout>

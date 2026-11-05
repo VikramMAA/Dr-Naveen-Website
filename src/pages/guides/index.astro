@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import CallPanel from '../../components/CallPanel.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import { getGuides, guideHref } from '../../lib/content';
+
+const guides = await getGuides();
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Patient guides', href: '/guides' },
+];
+---
+
+<BaseLayout
+  title="Patient Guides: Knee, Shoulder and ACL | Dr Naveen Govind"
+  description="Plain answers on knee pain, ACL tears, frozen shoulder, rotator cuff problems and questions to ask before surgery, from Dr Naveen Govind, Kochi."
+  path="/guides"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">Patient guides</p>
+        <h1>Plain answers on knees, shoulders and sports injuries</h1>
+        <p class="lead">Each guide starts with a short answer, then explains what it means for you and when to get checked.</p>
+      </header>
+      <ul class="grid grid--3 cards" role="list">
+        {guides.map((g) => <GuideCard title={g.data.title} shortAnswer={g.data.shortAnswer} href={guideHref(g)} headingLevel="h2" />)}
+      </ul>
+      <CallPanel />
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cards {
+    padding: 0;
+    margin: 0;
+  }
+</style>

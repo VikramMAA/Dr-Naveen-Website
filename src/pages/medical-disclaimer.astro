@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Medical disclaimer', href: '/medical-disclaimer' },
+];
+---
+
+<BaseLayout
+  title="Medical Disclaimer | Dr Naveen Govind"
+  description="The content on Dr Naveen Govind's website is general education, not a diagnosis or a substitute for a consultation with a doctor."
+  path="/medical-disclaimer"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container prose">
+      <header class="page-head">
+        <h1>Medical disclaimer</h1>
+      </header>
+      <p class="lead">General education only, not a diagnosis. For advice on your own condition, please see a doctor.</p>
+      <h2>General education</h2>
+      <p>
+        The information on this website is written to help people understand common bone, joint, ligament and muscle problems.
+        It is general education. It is not a diagnosis, and it is not a substitute for a consultation and examination by a doctor.
+      </p>
+      <p>The same symptom can have different causes in different people. Please do not use this website to diagnose or treat yourself.</p>
+      <h2>No doctor-patient relationship</h2>
+      <p>
+        Reading this website, or watching the videos, does not create a doctor-patient relationship with {site.name}. Advice about
+        your own condition is given only in a consultation.
+      </p>
+      <h2>In an emergency</h2>
+      <p><strong>For a medical emergency, go to the nearest emergency department.</strong></p>
+      <h2>Clinical review</h2>
+      <p>
+        Pages marked "Reviewed by {site.name}" have been checked by him. Other pages show the date they were last updated.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

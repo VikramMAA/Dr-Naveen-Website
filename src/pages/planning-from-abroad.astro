@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Checklist from '../components/Checklist.astro';
+import CallButton from '../components/CallButton.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import Icon from '../components/Icon.astro';
+import { site, hospitalShort } from '../config/site';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Planning from abroad', href: '/planning-from-abroad' },
+];
+const steps = [
+  { icon: 'phone', title: 'Call to book a family phone consult', text: `Call ${site.phone.display} to arrange a time. Family members abroad can join the call.` },
+  { icon: 'calendar', title: 'Send recent reports in advance if asked', text: 'Recent reports, scans and a list of medicines help make the call more useful.' },
+  { icon: 'map-pin', title: `First in-person consultation at ${site.hospital.name}, ${site.hospital.locality}`, text: 'Your parent is examined in person. Nothing replaces a proper examination.' },
+  { icon: 'check-circle', title: 'Plan treatment, recovery and follow-up together before you book leave', text: 'We agree the plan, the recovery period and the follow-up visits, so your leave covers the time it matters most.' },
+] as const;
+---
+
+<BaseLayout
+  title="Planning a Parent's Treatment From Abroad | Kochi"
+  description="Living in the UAE or the Gulf? Dr Naveen Govind, orthopaedic surgeon in Kochi, offers family phone consultations with a prior appointment."
+  path="/planning-from-abroad"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">For families abroad</p>
+        <h1>Planning a parent's knee or shoulder treatment from abroad</h1>
+        <p class="lead">
+          If you live in the UAE or elsewhere in the Gulf and are planning a parent's treatment in Kochi, you can arrange a phone
+          consultation with me as a family, with a prior appointment.
+        </p>
+        <div class="button-row">
+          <CallButton label={`Call ${site.phone.display} to book`} />
+          <WhatsAppButton />
+        </div>
+      </header>
+
+      <section aria-labelledby="steps-heading" class="block">
+        <SectionHeading id="steps-heading">How it works</SectionHeading>
+        <ol class="steps">
+          {
+            steps.map((s, i) => (
+              <li>
+                <span class="steps__num" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3>
+                    <span class="steps__icon">
+                      <Icon name={s.icon} size={24} />
+                    </span>
+                    {s.title}
+                  </h3>
+                  <p>{s.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section aria-labelledby="ask-heading" class="block">
+        <SectionHeading id="ask-heading">Questions to ask before you book leave</SectionHeading>
+        <p>
+          Before agreeing to any operation, your family should be able to answer five questions, from what exactly is wrong to
+          what precautions are needed afterwards.
+        </p>
+        <p><a href="/guides/questions-to-ask-before-knee-or-shoulder-surgery">Read the 5 questions to ask before knee or shoulder surgery</a></p>
+      </section>
+
+      <section aria-labelledby="home-heading" class="block">
+        <SectionHeading id="home-heading">Recovery at home</SectionHeading>
+        <p>Recovery is where the result is made. Plan these before the date:</p>
+        <Checklist
+          items={[
+            'Help at home for the first weeks, for cooking, bathing and getting to appointments',
+            'Physiotherapy sessions, and who will take your parent to them',
+            'Simple changes at home: clear loose rugs and clutter, keep everyday things within easy reach, and use a firm chair with arms',
+            'Follow-up visits, and who will attend them if you have returned abroad',
+          ]}
+        />
+      </section>
+
+      <section class="block where" aria-labelledby="where-heading">
+        <h2 id="where-heading">Where I consult</h2>
+        <p>{hospitalShort}. <a href="/contact">Contact details and directions</a>.</p>
+      </section>
+
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head .button-row {
+    margin-top: var(--space-3);
+  }
+  .block {
+    margin-top: var(--space-5);
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+    max-width: 860px;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+  .steps__num {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+    min-width: 1.2ch;
+  }
+  .steps h3 {
+    font-size: 1.375rem;
+    margin-bottom: 0.4rem;
+  }
+  .steps__icon {
+    color: var(--teal);
+    margin-right: 0.35rem;
+    display: inline-flex;
+    vertical-align: -3px;
+  }
+  .steps p {
+    margin: 0;
+  }
+  .where h2 {
+    font-size: var(--fs-h3);
+  }
+</style>

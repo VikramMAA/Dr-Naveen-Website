@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ConditionCard from '../../components/ConditionCard.astro';
+import CallPanel from '../../components/CallPanel.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import FAQ from '../../components/FAQ.astro';
+import { getConditions, conditionHref } from '../../lib/content';
+import { faqSchema } from '../../lib/schema';
+
+const conditions = await getConditions();
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'What I treat', href: '/what-i-treat' },
+];
+const faqs = [
+  {
+    question: 'What does an orthopaedic surgeon treat?',
+    answer: 'Orthopaedics is the care of your bones, joints, ligaments, tendons and muscles. Everything that helps you move.',
+  },
+  {
+    question: 'Is an orthopaedic surgeon a bone doctor?',
+    answer: 'Yes. An orthopaedic surgeon is the doctor many people call a bone doctor.',
+  },
+  {
+    question: 'Do I need a referral to book?',
+    answer: 'You can call to book directly.',
+  },
+];
+---
+
+<BaseLayout
+  title="What I Treat | Orthopaedic Surgeon in Kochi | Dr Naveen Govind"
+  description="Knee pain, sports injuries, shoulder problems, joint replacement, keyhole surgery and fractures. What Dr Naveen Govind, orthopaedic surgeon in Kochi, treats."
+  path="/what-i-treat"
+  breadcrumbs={breadcrumbs}
+  schema={[faqSchema(faqs)]}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">Orthopaedic Surgeon, Kochi</p>
+        <h1>What I treat</h1>
+        <p class="lead">
+          I see adults with knee, shoulder and sports injuries, people whose joints are wearing out, and people with broken bones.
+          Each page below explains the common signs, when to see a surgeon, and how we decide on treatment.
+        </p>
+      </header>
+
+      <ul class="grid grid--3 cards" role="list">
+        {
+          conditions.map((c) => (
+            <ConditionCard icon={c.data.icon} title={c.data.cardTitle} description={c.data.cardDescription} href={conditionHref(c)} headingLevel="h2" />
+          ))
+        }
+      </ul>
+
+      <section class="what-is" aria-labelledby="what-is-heading">
+        <SectionHeading id="what-is-heading">What does an orthopaedic surgeon treat?</SectionHeading>
+        <p class="lead">Orthopaedics is the care of your bones, joints, ligaments, tendons and muscles. Everything that helps you move.</p>
+        <p>An orthopaedic surgeon is the doctor many people call a bone doctor.</p>
+        <p>
+          Seeing a surgeon does not mean you will need an operation. Many problems get better with physiotherapy, exercise and
+          time. Read <a href="/guides/what-does-an-orthopaedic-surgeon-treat">what an orthopaedic surgeon treats, and when to see one</a>.
+        </p>
+      </section>
+
+      <CallPanel />
+      <FAQ faqs={faqs} />
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cards {
+    padding: 0;
+    margin: 0;
+  }
+  .what-is {
+    margin-top: var(--space-5);
+  }
+</style>

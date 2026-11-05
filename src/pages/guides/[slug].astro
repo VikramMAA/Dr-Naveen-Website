@@ -1,0 +1,77 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReviewNote from '../../components/ReviewNote.astro';
+import FAQ from '../../components/FAQ.astro';
+import RelatedGuides from '../../components/RelatedGuides.astro';
+import CallPanel from '../../components/CallPanel.astro';
+import Sources from '../../components/Sources.astro';
+import MalayalamSummary from '../../components/MalayalamSummary.astro';
+import Disclaimer from '../../components/Disclaimer.astro';
+import Icon from '../../components/Icon.astro';
+import { getGuides, guidesBySlug, guideHref } from '../../lib/content';
+import { faqSchema, medicalWebPageSchema, videoSchema } from '../../lib/schema';
+import { latestVideo } from '../../config/site';
+
+export async function getStaticPaths() {
+  const guides = await getGuides();
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const path = guideHref(entry);
+const related = await guidesBySlug(d.relatedGuides);
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Patient guides', href: '/guides' },
+  { name: d.title, href: path },
+];
+const isVideoGuide = entry.id === 'knee-and-shoulder-pain-just-age';
+const schema = [
+  medicalWebPageSchema({ path, name: d.title, description: d.description, about: d.about, reviewStatus: d.reviewStatus, updated: d.updated }),
+  ...(d.faqs.length ? [faqSchema(d.faqs)] : []),
+  ...(isVideoGuide && latestVideo ? [videoSchema(latestVideo)] : []),
+];
+---
+
+<BaseLayout title={d.seoTitle} description={d.description} path={path} breadcrumbs={breadcrumbs} schema={schema} ogType="article">
+  <article class="section section--tight">
+    <div class="container article">
+      <header class="page-head">
+        <p class="eyebrow">Patient guide</p>
+        <h1>{d.title}</h1>
+        <ReviewNote status={d.reviewStatus} updated={d.updated} />
+      </header>
+      <div class="short-answer">
+        <p><strong>Short answer:</strong> {d.shortAnswer}</p>
+      </div>
+      <div class="prose">
+        <Content />
+      </div>
+      <p class="back-link no-print">
+        <a href={d.conditionPath}>More on {d.conditionLabel.charAt(0).toLowerCase() + d.conditionLabel.slice(1)} <Icon name="arrow-right" size={18} /></a>
+      </p>
+      <CallPanel />
+      <FAQ faqs={d.faqs} />
+      <RelatedGuides guides={related} heading="More patient guides" />
+      <Sources sources={d.sources} />
+      <MalayalamSummary text={d.malayalamSummary} />
+      <Disclaimer />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    margin-top: var(--space-4);
+    font-weight: 800;
+  }
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-block: 0.6rem;
+  }
+</style>

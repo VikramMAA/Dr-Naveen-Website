@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Privacy', href: '/privacy' },
+];
+const a = site.analytics.provider;
+---
+
+<BaseLayout
+  title="Privacy | Dr Naveen Govind"
+  description="How Dr Naveen Govind's website handles privacy: no forms, no personal data collection, no tracking cookies, and videos that load only when clicked."
+  path="/privacy"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container prose">
+      <header class="page-head">
+        <h1>Privacy</h1>
+      </header>
+      <p class="lead">This website does not collect your personal data through forms.</p>
+      <h2>No forms</h2>
+      <p>
+        There are no forms on this website. We do not ask for your name, phone number, email address, symptoms or medical
+        history online. To book, you call us.
+      </p>
+      <h2>Analytics</h2>
+      {
+        a === 'none' ? (
+          <p>This website does not use analytics or tracking cookies.</p>
+        ) : (
+          <p>
+            This website uses {a === 'plausible' ? 'Plausible Analytics' : 'Netlify Analytics'} to count page visits. It is cookieless and
+            does not record personal data.
+          </p>
+        )
+      }
+      <p>We never use advertising pixels, ad tracking tags or session recording.</p>
+      <h2>Videos</h2>
+      <p>
+        Videos are hosted on YouTube. A video loads from YouTube's privacy-enhanced service (youtube-nocookie.com) only when you
+        press play. Until then, only a preview image is shown. Once you press play, YouTube's own privacy policy applies.
+      </p>
+      <h2>Links to other websites</h2>
+      <p>Some pages link to other websites, such as the NHS or Google Maps. Their privacy policies apply when you visit them.</p>
+      <h2>Questions</h2>
+      <p>For privacy questions, please call <a href={site.phone.href}>{site.phone.display}</a>.</p>
+    </div>
+  </section>
+</BaseLayout>

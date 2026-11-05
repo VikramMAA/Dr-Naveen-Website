@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import { site, isSet } from '../config/site';
+import { videoSchema } from '../lib/schema';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Videos', href: '/videos' },
+];
+const videos = site.videos;
+const fmt = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+<BaseLayout
+  title="Videos on Knee and Shoulder Pain (Malayalam) | Dr Naveen"
+  description="Short videos in Malayalam, with English captions, on knee pain, shoulder pain and sports injuries, by Dr Naveen Govind, orthopaedic surgeon in Kochi."
+  path="/videos"
+  breadcrumbs={breadcrumbs}
+  schema={videos.map(videoSchema)}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">Videos</p>
+        <h1>Videos on knees, shoulders and sports injuries</h1>
+        <p class="lead">In Malayalam, with English captions. Videos load from YouTube only when you press play.</p>
+        {isSet(site.social.youtube) && <p><a href={site.social.youtube} rel="noopener">Visit the YouTube channel</a></p>}
+      </header>
+
+      {
+        videos.length > 0 ? (
+          <ul class="grid grid--2 videos" role="list">
+            {videos.map((v) => (
+              <li>
+                <VideoEmbed id={v.id} title={v.title} language={v.language} />
+                <h2 class="videos__title">{v.title}</h2>
+                <p class="small muted">
+                  <time datetime={v.date}>{fmt(v.date)}</time> | {v.language}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="soon">
+            <VideoEmbed headingLevel="h2" />
+          </div>
+        )
+      }
+      <Disclaimer />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .videos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .videos__title {
+    font-size: 1.375rem;
+    margin: 0.9rem 0 0.25rem;
+  }
+  .soon {
+    max-width: 720px;
+  }
+</style>

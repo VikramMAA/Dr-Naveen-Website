@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout title="Page not found | Dr Naveen Govind" description="This page could not be found." path="/404" noindex>
+  <section class="section">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">Page not found</p>
+        <h1>Sorry, we can't find that page.</h1>
+        <p class="lead">It may have moved. These links should help.</p>
+      </header>
+      <div class="button-row">
+        <Button href="/" icon="arrow-right">Home</Button>
+        <Button href="/guides/knee-pain-by-location" variant="secondary">Knee pain map</Button>
+        <Button href="/contact" variant="secondary" icon="phone">Contact</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

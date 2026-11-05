@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CallButton from '../components/CallButton.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import HospitalLogo from '../components/HospitalLogo.astro';
+import Icon from '../components/Icon.astro';
+import { site, isSet } from '../config/site';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Contact', href: '/contact' },
+];
+const h = site.hospital;
+---
+
+<BaseLayout
+  title="Book a Consultation | Dr Naveen Govind, Vyttila, Kochi"
+  description="Book a consultation with Dr Naveen Govind, orthopaedic surgeon, at Welcare Hospital, S. A. Road, Vyttila, Ernakulam. Call 96508 59766."
+  path="/contact"
+  breadcrumbs={breadcrumbs}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <header class="page-head">
+        <p class="eyebrow">Contact</p>
+        <h1>Book a consultation</h1>
+        <p class="lead">Appointments are by phone. You can call to book directly. No referral is needed.</p>
+      </header>
+
+      <div class="contact">
+        <div class="contact__call">
+          <CallButton block />
+          <WhatsAppButton block />
+          <p class="contact__family">
+            <Icon name="globe" size={24} />
+            <span>{site.familyConsultLine} <a href="/planning-from-abroad">How family phone consults work</a>.</span>
+          </p>
+        </div>
+
+        <div class="contact__place">
+          <HospitalLogo />
+          <h2>{h.name}</h2>
+          <address>
+            {h.name}<br />
+            {h.street}, {h.locality}<br />
+            {h.city}, {h.region}{isSet(h.postalCode) ? ` ${h.postalCode}` : ''}<br />
+            {h.countryName}
+          </address>
+          {
+            isSet(site.consultationTimes) && (
+              <p class="contact__times">
+                <Icon name="clock" size={24} />
+                <span>{site.consultationTimes}</span>
+              </p>
+            )
+          }
+          <a class="map-link" href={site.mapsUrl} rel="noopener">
+            <span class="map-link__icon"><Icon name="map-pin" size={30} /></span>
+            <span>
+              <strong>Open directions in Google Maps</strong>
+              <span class="small">{h.street}, {h.locality}, {h.city}</span>
+            </span>
+            <Icon name="external" size={20} />
+          </a>
+        </div>
+      </div>
+
+      <aside class="emergency">
+        <Icon name="warning" size={28} />
+        <p><strong>For a medical emergency, go to the nearest emergency department.</strong></p>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-4);
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+  }
+  .contact__call {
+    display: grid;
+    gap: var(--space-2);
+  }
+  .contact__call :global(.button) {
+    min-height: 68px;
+    font-size: 1.375rem;
+  }
+  .contact__family {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin-top: var(--space-2);
+  }
+  .contact__family :global(.icon) {
+    color: var(--teal);
+    margin-top: 0.15rem;
+  }
+  .contact__place {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-3);
+  }
+  .contact__place h2 {
+    font-size: var(--fs-h3);
+    margin-top: var(--space-2);
+  }
+  address {
+    font-style: normal;
+    margin-bottom: var(--space-3);
+  }
+  .contact__times {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .contact__times :global(.icon) {
+    color: var(--teal);
+  }
+  .map-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border: 2px solid var(--teal);
+    border-radius: var(--radius);
+    background: var(--teal-tint);
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .map-link > span:nth-child(2) {
+    display: grid;
+    flex: 1;
+  }
+  .map-link__icon {
+    color: var(--teal-dark);
+    display: inline-flex;
+  }
+  .map-link:hover {
+    color: var(--navy);
+    border-color: var(--teal-dark);
+  }
+  .emergency {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: var(--space-5);
+    padding: var(--space-3);
+    border: 3px solid var(--red);
+    border-radius: var(--radius);
+    background: var(--white);
+    max-width: 760px;
+  }
+  .emergency :global(.icon) {
+    color: var(--red);
+  }
+  .emergency p {
+    margin: 0;
+  }
+</style>

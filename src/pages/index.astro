@@ -1,0 +1,320 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Headshot from '../components/Headshot.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ConditionCard from '../components/ConditionCard.astro';
+import GuideCard from '../components/GuideCard.astro';
+import KneeMap from '../components/KneeMap.astro';
+import KneeUrgent from '../components/KneeUrgent.astro';
+import Checklist from '../components/Checklist.astro';
+import PullQuote from '../components/PullQuote.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import WhereIConsult from '../components/WhereIConsult.astro';
+import MalayalamSummary from '../components/MalayalamSummary.astro';
+import Disclaimer from '../components/Disclaimer.astro';
+import Illustration from '../components/Illustration.astro';
+import Icon from '../components/Icon.astro';
+import { site, latestVideo, hospitalShort } from '../config/site';
+import { getConditions, getGuides, conditionHref, guideHref } from '../lib/content';
+import { latestVideoSchema } from '../lib/schema';
+
+const conditions = await getConditions();
+const guides = (await getGuides()).slice(0, 5);
+
+const title = 'Dr Naveen Govind | Orthopaedic Surgeon in Kochi, Vyttila';
+const description =
+  'Dr Naveen Govind, MBBS, MS (Orthopaedics), is an orthopaedic surgeon in Kochi treating knee pain, sports injuries, shoulder problems, fractures and joint replacement. Consults at Welcare Hospital, Vyttila.';
+
+const malayalam =
+  `ഞാൻ ${site.name}, കൊച്ചിയിലെ orthopaedic surgeon. Knee pain, sports injuries, shoulder pain, fractures, joint replacement എന്നിവയ്ക്ക് ചികിത്സ നൽകുന്നു. ഓരോ രോഗിക്കും ശരിയായ ചികിത്സ കണ്ടെത്തി, surgery വേണമോ വേണ്ടയോ എന്ന് വ്യക്തമായി വിശദീകരിക്കുക എന്നതാണ് എന്റെ ജോലി. ${site.hospital.locality} യിലെ ${site.hospital.name} ൽ consultation ന് ${site.phone.display} ൽ വിളിക്കുക.`;
+---
+
+<BaseLayout title={title} description={description} path="/" schema={latestVideoSchema()}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <p class="eyebrow">{site.title}</p>
+        <h1>Knee, shoulder and sports injury care, explained clearly.</h1>
+        <p class="lead">
+          I'm {site.name}. My job is to find the right treatment for each patient, and to explain clearly why I'm
+          recommending it, whether that is surgery or not.
+        </p>
+        <div class="button-row">
+          <Button href={site.phone.href} icon="phone">Call for an appointment</Button>
+          <Button href="#knee-map-section" variant="secondary">Where does your knee hurt?</Button>
+        </div>
+        <p class="hero__where">
+          <Icon name="map-pin" size={22} />
+          <span>Consultations at {hospitalShort}</span>
+        </p>
+      </div>
+      <div class="hero__photo">
+        <Headshot priority />
+      </div>
+    </div>
+  </section>
+
+  <!-- What I treat -->
+  <section class="section treat" aria-labelledby="treat-heading">
+    <div class="container">
+      <div class="treat__head">
+        <SectionHeading id="treat-heading" sub="Bones, joints, ligaments, tendons and muscles. Everything that helps you move.">What I treat</SectionHeading>
+        <div class="treat__illus">
+          <Illustration name="knee-shoulder" />
+        </div>
+      </div>
+      <ul class="grid grid--3 cards" role="list">
+        {
+          conditions.map((c) => (
+            <ConditionCard icon={c.data.icon} title={c.data.cardTitle} description={c.data.cardDescription} href={conditionHref(c)} />
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Knee map -->
+  <section class="section knee" id="knee-map-section" aria-labelledby="knee-heading">
+    <div class="container">
+      <SectionHeading id="knee-heading" sub="The location is your doctor's first clue.">Where does your knee hurt?</SectionHeading>
+      <KneeMap id="knee-map" />
+      <KneeUrgent />
+      <p class="knee__more"><a href="/guides/knee-pain-by-location">Read the full knee pain map guide</a></p>
+    </div>
+  </section>
+
+  <!-- When to see -->
+  <section class="section when" aria-labelledby="when-heading">
+    <div class="container when__inner">
+      <div>
+        <SectionHeading id="when-heading">When to see an orthopaedic surgeon</SectionHeading>
+        <p>An orthopaedic surgeon is the doctor many people call a bone doctor. Get it checked if you have:</p>
+      </div>
+      <Checklist
+        items={[
+          'Pain that has not improved in a few weeks',
+          'Pain that stops you walking, climbing stairs or sleeping',
+          'Pain when tying your hair or lifting your arm',
+          'A joint that locks, gives way or swells',
+          'A knee that is slowly changing shape',
+          'A sports injury where you felt a pop',
+        ]}
+      />
+    </div>
+  </section>
+
+  <PullQuote text="Not every visit ends in surgery. Many problems get better with physiotherapy, exercise and time. My job is to tell you which ones will, and which ones won't." />
+
+  <!-- Guides -->
+  <section class="section" aria-labelledby="guides-heading">
+    <div class="container">
+      <SectionHeading id="guides-heading" sub="Plain answers to the questions I hear most often.">Patient guides</SectionHeading>
+      <ul class="grid grid--3 cards" role="list">
+        {guides.map((g) => <GuideCard title={g.data.title} shortAnswer={g.data.shortAnswer} href={guideHref(g)} />)}
+      </ul>
+      <p class="section-more"><a href="/guides">All patient guides</a></p>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <section class="section section--white" aria-labelledby="video-heading">
+    <div class="container video">
+      <div>
+        <SectionHeading id="video-heading" sub="In Malayalam, with English captions.">Latest video</SectionHeading>
+        {latestVideo && <p class="video__title">{latestVideo.title}</p>}
+        <p><a href="/videos">All videos</a></p>
+      </div>
+      <VideoEmbed id={latestVideo?.id} title={latestVideo?.title} language={latestVideo?.language} />
+    </div>
+  </section>
+
+  <!-- Abroad -->
+  <section class="section" aria-labelledby="abroad-heading">
+    <div class="container">
+      <div class="abroad">
+        <span class="abroad__icon"><Icon name="globe" size={36} /></span>
+        <div>
+          <h2 id="abroad-heading">Planning a parent's treatment from abroad?</h2>
+          <p>
+            If you live in the UAE or elsewhere in the Gulf, you can arrange a phone consultation with me as a family, with a
+            prior appointment. Plan the treatment, recovery and follow-up together before you book leave.
+          </p>
+          <Button href="/planning-from-abroad" variant="secondary" iconAfter="arrow-right">How it works</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where I consult -->
+  <section class="section section--white" aria-labelledby="consult-heading">
+    <div class="container consult-wrap">
+      <div>
+        <SectionHeading id="consult-heading">Where I consult</SectionHeading>
+        <p>You can call to book directly. No referral is needed.</p>
+      </div>
+      <WhereIConsult />
+    </div>
+  </section>
+
+  <div class="container">
+    <MalayalamSummary text={malayalam} />
+    <Disclaimer />
+    <div class="end-space"></div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-4) var(--space-6);
+  }
+  .hero__inner {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  .hero__photo {
+    order: -1;
+    width: min(100%, 300px);
+  }
+  .hero h1 {
+    max-width: 16ch;
+    margin-bottom: var(--space-3);
+  }
+  .hero .lead {
+    max-width: 34em;
+    margin-bottom: var(--space-4);
+  }
+  .hero__where {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: var(--space-3) 0 0;
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+  .hero__where :global(.icon) {
+    color: var(--teal);
+  }
+  @media (min-width: 900px) {
+    .hero {
+      padding-top: var(--space-6);
+    }
+    .hero__inner {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+    .hero__photo {
+      order: 0;
+      width: 100%;
+      max-width: 440px;
+      justify-self: end;
+    }
+  }
+
+  .section--white {
+    background: var(--white);
+  }
+  .cards {
+    padding: 0;
+    margin: 0;
+  }
+  .treat {
+    padding-top: var(--space-5);
+  }
+  .treat__head {
+    display: grid;
+    gap: var(--space-3);
+    align-items: end;
+  }
+  .treat__illus {
+    max-width: 260px;
+  }
+  @media (min-width: 768px) {
+    .treat__head {
+      grid-template-columns: 1fr 280px;
+    }
+    .treat__illus {
+      max-width: 280px;
+      justify-self: end;
+      margin-bottom: var(--space-4);
+    }
+  }
+  .knee {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+  }
+  .knee__more {
+    margin-top: var(--space-3);
+    font-weight: 700;
+  }
+  .when__inner {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 900px) {
+    .when__inner {
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-5);
+    }
+  }
+  .section-more {
+    margin-top: var(--space-3);
+    font-weight: 700;
+  }
+  .video {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 900px) {
+    .video {
+      grid-template-columns: 1fr 1.5fr;
+      gap: var(--space-5);
+      align-items: start;
+    }
+  }
+  .video__title {
+    font-weight: 800;
+    font-size: var(--fs-lead);
+  }
+  .abroad {
+    display: grid;
+    gap: var(--space-3);
+    background: var(--teal-tint);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-3);
+  }
+  @media (min-width: 768px) {
+    .abroad {
+      grid-template-columns: auto 1fr;
+      padding: var(--space-5);
+    }
+  }
+  .abroad__icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--teal-dark);
+  }
+  .abroad h2 {
+    font-size: var(--fs-h3);
+  }
+  .consult-wrap {
+    display: grid;
+    gap: var(--space-3);
+  }
+  @media (min-width: 900px) {
+    .consult-wrap {
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-5);
+      align-items: start;
+    }
+  }
+  .end-space {
+    height: var(--space-5);
+  }
+</style>
