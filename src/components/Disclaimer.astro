@@ -1,0 +1,20 @@
+---
+import { DISCLAIMER_TEXT } from '../config/site';
+---
+
+<aside class="disclaimer" aria-label="Medical disclaimer">
+  <p>{DISCLAIMER_TEXT} <a href="/medical-disclaimer">Read the full medical disclaimer</a>.</p>
+</aside>
+
+<style>
+  .disclaimer {
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-3);
+    margin-top: var(--space-5);
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+  .disclaimer p {
+    margin: 0;
+  }
+</style>

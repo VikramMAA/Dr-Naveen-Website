@@ -1,0 +1,88 @@
+---
+import Icon from './Icon.astro';
+import CallButton from './CallButton.astro';
+import WhatsAppButton from './WhatsAppButton.astro';
+import HospitalLogo from './HospitalLogo.astro';
+import { site, isSet } from '../config/site';
+
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+  showCall?: boolean;
+}
+const { headingLevel: H = 'h3', showCall = true } = Astro.props;
+const h = site.hospital;
+---
+
+<div class="consult">
+  <div class="consult__logo"><HospitalLogo /></div>
+  <H class="consult__name">{h.name}</H>
+  <address class="consult__address">
+    {h.street}, {h.locality}<br />
+    {h.city}, {h.region}{isSet(h.postalCode) ? ` ${h.postalCode}` : ''}
+  </address>
+  <ul class="consult__meta">
+    {
+      isSet(site.consultationTimes) && (
+        <li>
+          <Icon name="clock" size={24} />
+          <span>{site.consultationTimes}</span>
+        </li>
+      )
+    }
+    <li>
+      <Icon name="map-pin" size={24} />
+      <a href={site.mapsUrl} rel="noopener">Open in Google Maps<span class="visually-hidden"> (opens Google Maps)</span></a>
+    </li>
+    <li>
+      <Icon name="phone" size={24} />
+      <span>Appointments: <a href={site.phone.href}>{site.phone.display}</a></span>
+    </li>
+  </ul>
+  {
+    showCall && (
+      <div class="button-row">
+        <CallButton />
+        <WhatsAppButton />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .consult {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-3);
+  }
+  .consult__logo {
+    margin-bottom: var(--space-2);
+  }
+  .consult__name {
+    font-size: var(--fs-h3);
+    margin-bottom: 0.5rem;
+  }
+  .consult__address {
+    font-style: normal;
+    margin-bottom: var(--space-2);
+  }
+  .consult__meta {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: grid;
+    gap: 0.6rem;
+  }
+  .consult__meta li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .consult__meta :global(.icon) {
+    color: var(--teal);
+  }
+  .consult__meta a {
+    display: inline-block;
+    padding-block: 0.4rem;
+  }
+</style>

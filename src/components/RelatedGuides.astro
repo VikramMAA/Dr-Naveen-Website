@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import GuideCard from './GuideCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { guideHref } from '../lib/content';
+
+interface Props {
+  guides: CollectionEntry<'guides'>[];
+  heading?: string;
+}
+const { guides, heading = 'Related patient guides' } = Astro.props;
+---
+
+{
+  guides.length > 0 && (
+    <section class="related" aria-labelledby="related-heading">
+      <SectionHeading id="related-heading">{heading}</SectionHeading>
+      <ul class="grid grid--3" role="list">
+        {guides.map((g) => (
+          <GuideCard title={g.data.title} shortAnswer={g.data.shortAnswer} href={guideHref(g)} />
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related {
+    margin-top: var(--space-5);
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+</style>

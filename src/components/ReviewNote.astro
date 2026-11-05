@@ -1,0 +1,35 @@
+---
+/**
+ * "Reviewed by" appears only on approved pages. Pending pages show "Last updated".
+ */
+import { site } from '../config/site';
+interface Props {
+  status: 'pending' | 'approved';
+  updated: Date;
+}
+const { status, updated } = Astro.props;
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const iso = updated.toISOString().slice(0, 10);
+---
+
+<p class="review-note">
+  {
+    status === 'approved' ? (
+      <>
+        Reviewed by {site.name}, {site.qualifications}. Last reviewed <time datetime={iso}>{fmt(updated)}</time>.
+      </>
+    ) : (
+      <>
+        Last updated <time datetime={iso}>{fmt(updated)}</time>
+      </>
+    )
+  }
+</p>
+
+<style>
+  .review-note {
+    color: var(--muted);
+    font-size: var(--fs-small);
+    margin: 0 0 var(--space-3);
+  }
+</style>

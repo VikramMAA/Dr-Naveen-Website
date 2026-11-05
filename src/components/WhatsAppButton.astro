@@ -1,0 +1,19 @@
+---
+import Button from './Button.astro';
+import { site } from '../config/site';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'on-dark';
+  block?: boolean;
+  label?: string;
+}
+const { variant = 'secondary', block, label = 'WhatsApp' } = Astro.props;
+---
+
+{
+  site.whatsappEnabled && (
+    <Button href={site.whatsappUrl} variant={variant} icon="chat" block={block} rel="noopener" target="_blank">
+      {label}
+    </Button>
+  )
+}

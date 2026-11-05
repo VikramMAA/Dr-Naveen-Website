@@ -1,0 +1,73 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../config/site';
+---
+
+<div class="call-bar" role="region" aria-label="Call to book">
+  <a class="call-bar__call" href={site.phone.href}>
+    <Icon name="phone" size={24} />
+    <span>Call {site.phone.display}</span>
+  </a>
+  {
+    site.whatsappEnabled && (
+      <a class="call-bar__wa" href={site.whatsappUrl} rel="noopener" target="_blank">
+        <Icon name="chat" size={24} />
+        <span>WhatsApp</span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .call-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    display: flex;
+    gap: 0.6rem;
+    background: var(--navy);
+    padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom, 0px));
+    min-height: var(--call-bar-height);
+  }
+  .call-bar a {
+    flex: 1 1 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 56px;
+    border-radius: var(--radius-pill);
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-decoration: none;
+  }
+  .call-bar__call {
+    background: var(--teal);
+    color: var(--white);
+  }
+  .call-bar__call:hover {
+    background: var(--teal-dark);
+    color: var(--white);
+  }
+  .call-bar__wa {
+    flex: 0 1 auto !important;
+    padding-inline: 1rem;
+    border: 2px solid var(--offwhite);
+    color: var(--offwhite);
+  }
+  .call-bar__wa:hover {
+    color: var(--offwhite);
+  }
+  .call-bar a:focus-visible {
+    box-shadow:
+      0 0 0 3px var(--navy),
+      0 0 0 6px var(--offwhite);
+  }
+  @media (min-width: 768px) {
+    .call-bar {
+      display: none;
+    }
+  }
+</style>

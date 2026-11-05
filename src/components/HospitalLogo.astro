@@ -1,0 +1,44 @@
+---
+/**
+ * Welcare Hospital logo. Only used in "Where I consult" and on the Contact page, small.
+ * Expected at src/assets/welcare-logo.png. Placeholder until supplied (and permission confirmed).
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site } from '../config/site';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/welcare-logo.{png,jpg,jpeg,webp,svg}', { eager: true });
+const img = Object.values(files)[0]?.default;
+---
+
+{
+  img ? (
+    <Image src={img} alt={site.hospital.logoAlt} width={160} class="hospital-logo" loading="lazy" />
+  ) : (
+    <div class="hospital-logo hospital-logo--placeholder" role="img" aria-label={`${site.hospital.logoAlt} logo (to be added)`}>
+      <span>{site.hospital.name} logo</span>
+    </div>
+  )
+}
+
+<style>
+  .hospital-logo {
+    display: block;
+    width: 160px;
+    max-width: 100%;
+    height: auto;
+  }
+  .hospital-logo--placeholder {
+    display: grid;
+    place-items: center;
+    height: 64px;
+    background: var(--white);
+    border: 2px dashed var(--line);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.5rem;
+  }
+</style>

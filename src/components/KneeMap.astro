@@ -1,0 +1,306 @@
+---
+/**
+ * "Where does your knee hurt?" knee map. Front view of a RIGHT knee, as if you
+ * are looking at someone standing facing you.
+ * Positions corrected by Dr Naveen (follow exactly):
+ *   1 Front: centre, on the kneecap
+ *   2 Inner side: RIGHT side of the drawing
+ *   3 Outer side: LEFT side of the drawing
+ *   4 Back: marker on the right, below the joint line, dashed leader line
+ *   5 Whole knee: below the kneecap, centred
+ * Each zone is a real <button>. Without JavaScript, all five explanations show as a list.
+ */
+interface Props {
+  id?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { id = 'knee-map' } = Astro.props;
+
+import { kneeZones as zones } from '../data/kneeZones';
+const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
+---
+
+<div class="knee-map" id={id} data-knee-map>
+  <div class="knee-map__figure">
+    <svg class="knee-map__svg" viewBox="0 0 480 480" role="img" aria-labelledby={`${id}-svg-title`}>
+      <title id={`${id}-svg-title`}>
+        Line drawing of a right knee seen from the front, with five numbered areas: 1 front, 2 inner side on the right of the
+        drawing, 3 outer side on the left, 4 back, and 5 the whole knee.
+      </title>
+      <!-- 5: whole knee zone (behind everything) -->
+      <ellipse class="zone zone--whole" data-zone="5" cx="240" cy="250" rx="128" ry="108"></ellipse>
+
+      <!-- 2 and 3: side zones -->
+      <ellipse class="zone zone--side" data-zone="2" cx="314" cy="252" rx="28" ry="44"></ellipse>
+      <ellipse class="zone zone--side" data-zone="3" cx="166" cy="252" rx="28" ry="44"></ellipse>
+
+      <!-- Leg outline: outer side on the left, inner side on the right -->
+      <path class="stroke" d="M150 0 C148 60 141 130 139 186 C137 216 129 240 135 266 C141 290 160 304 168 330 C176 370 174 420 178 480"></path>
+      <path class="stroke" d="M330 0 C332 60 340 130 344 186 C348 216 357 242 350 268 C343 292 322 305 313 330 C304 370 306 420 302 480"></path>
+
+      <!-- 1: kneecap -->
+      <ellipse class="zone zone--front" data-zone="1" cx="240" cy="212" rx="44" ry="52"></ellipse>
+      <ellipse class="stroke" cx="240" cy="212" rx="44" ry="52" fill="none"></ellipse>
+
+      <!-- Tendon below the kneecap -->
+      <path class="stroke stroke--thin" d="M222 262 C224 288 226 310 228 336"></path>
+      <path class="stroke stroke--thin" d="M258 262 C256 288 254 310 252 336"></path>
+      <path class="stroke stroke--thin" d="M224 340 Q240 350 256 340"></path>
+
+      <!-- Joint line hints -->
+      <path class="stroke stroke--faint" d="M141 268 H176"></path>
+      <path class="stroke stroke--faint" d="M346 268 H304"></path>
+
+      <!-- 4: back of the knee, dashed leader line to the marker -->
+      <path class="leader" data-zone="4" d="M346 300 L404 350"></path>
+      <circle class="zone zone--back" data-zone="4" cx="344" cy="298" r="7"></circle>
+    </svg>
+
+    {
+      zones.map((z) => (
+        <button
+          type="button"
+          class="knee-map__btn"
+          data-zone-btn={z.n}
+          aria-pressed="false"
+          aria-controls={`${id}-zone-${z.n}`}
+          style={`left:${pct(z.x)};top:${pct(z.y)}`}
+        >
+          <span class="knee-map__num" aria-hidden="true">
+            {z.n}
+          </span>
+          <span class="knee-map__label">
+            <span class="visually-hidden">Area {z.n}: </span>
+            {z.label}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="knee-map__panel" aria-live="polite">
+    <p class="knee-map__prompt">Tap a number on the drawing to read about that area.</p>
+    <ol class="knee-map__zones">
+      {
+        zones.map((z) => (
+          <li id={`${id}-zone-${z.n}`} data-zone-text={z.n}>
+            <span class="knee-map__zone-num" aria-hidden="true">
+              {z.n}
+            </span>
+            <p>
+              <strong>{z.title}</strong> {z.text}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-knee-map]').forEach((map) => {
+    const buttons = Array.from(map.querySelectorAll<HTMLButtonElement>('[data-zone-btn]'));
+    const texts = Array.from(map.querySelectorAll<HTMLElement>('[data-zone-text]'));
+    const shapes = Array.from(map.querySelectorAll<SVGElement>('[data-zone]'));
+    map.classList.add('is-ready');
+
+    const select = (n: string) => {
+      map.classList.add('has-selection');
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.zoneBtn === n)));
+      texts.forEach((t) => t.classList.toggle('is-active', t.dataset.zoneText === n));
+      shapes.forEach((s) => s.classList.toggle('is-active', s.dataset.zone === n));
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => select(b.dataset.zoneBtn || '1')));
+  });
+</script>
+
+<style>
+  .knee-map {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+    margin-block: var(--space-3) var(--space-4);
+  }
+  @media (min-width: 900px) {
+    .knee-map {
+      grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+  }
+
+  .knee-map__figure {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    margin-inline: auto;
+    aspect-ratio: 1 / 1;
+  }
+  .knee-map__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .stroke {
+    fill: none;
+    stroke: var(--navy);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .stroke--thin {
+    stroke-width: 2;
+  }
+  .stroke--faint {
+    stroke: var(--line);
+    stroke-width: 2;
+  }
+  .leader {
+    fill: none;
+    stroke: var(--navy);
+    stroke-width: 2;
+    stroke-dasharray: 6 6;
+    stroke-linecap: round;
+  }
+  .leader.is-active {
+    stroke: var(--teal);
+    stroke-width: 3;
+  }
+
+  .zone {
+    transition: fill 0.15s ease, stroke 0.15s ease;
+  }
+  .zone--front {
+    fill: var(--teal-tint);
+  }
+  .zone--side {
+    fill: var(--teal-tint);
+  }
+  .zone--whole {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 3;
+    stroke-dasharray: 8 8;
+  }
+  .zone--back {
+    fill: var(--teal-tint);
+    stroke: var(--navy);
+    stroke-width: 2;
+  }
+  .zone--front.is-active,
+  .zone--side.is-active,
+  .zone--back.is-active {
+    fill: var(--teal);
+  }
+  .zone--whole.is-active {
+    fill: var(--teal-tint);
+    stroke: var(--teal);
+  }
+
+  .knee-map__btn {
+    position: absolute;
+    transform: translate(-50%, -24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--navy);
+    cursor: pointer;
+    border-radius: 12px;
+  }
+  .knee-map__num {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 3px solid var(--teal);
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 1.375rem;
+    line-height: 1;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .knee-map__label {
+    font-weight: 800;
+    font-size: 1rem;
+    line-height: 1.15;
+    white-space: nowrap;
+    background: var(--offwhite);
+    padding: 0 0.3rem;
+    border-radius: 6px;
+  }
+  .knee-map__btn:hover .knee-map__num {
+    background: var(--teal-tint);
+  }
+  .knee-map__btn[aria-pressed='true'] .knee-map__num {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--white);
+  }
+  .knee-map__btn:focus-visible {
+    box-shadow: none;
+  }
+  .knee-map__btn:focus-visible .knee-map__num {
+    box-shadow: var(--focus);
+  }
+
+  .knee-map__panel {
+    min-height: 12rem;
+  }
+  .knee-map__prompt {
+    font-size: var(--fs-lead);
+    font-weight: 700;
+    color: var(--muted);
+    background: var(--white);
+    border: 2px dashed var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    margin: 0;
+  }
+  .has-selection .knee-map__prompt {
+    display: none;
+  }
+  .knee-map__zones {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .knee-map__zones li {
+    display: none;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-left: 6px solid var(--teal);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
+  .knee-map__zones li.is-active {
+    display: grid;
+  }
+  .knee-map__zones p {
+    margin: 0;
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+  }
+  .knee-map__zone-num {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    font-weight: 800;
+    font-size: 1.25rem;
+  }
+
+</style>

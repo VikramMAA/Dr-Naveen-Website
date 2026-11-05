@@ -1,0 +1,14 @@
+---
+import Button from './Button.astro';
+import { site } from '../config/site';
+
+interface Props {
+  label?: string;
+  variant?: 'primary' | 'secondary' | 'on-dark';
+  block?: boolean;
+  class?: string;
+}
+const { label = `Call ${site.phone.display}`, variant = 'primary', block, class: className } = Astro.props;
+---
+
+<Button href={site.phone.href} variant={variant} icon="phone" block={block} class={className}>{label}</Button>

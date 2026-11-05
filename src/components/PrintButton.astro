@@ -1,0 +1,17 @@
+---
+import Button from './Button.astro';
+---
+
+<div class="print-button no-print">
+  <Button variant="secondary" icon="print" data-print-button>Print this list</Button>
+</div>
+
+<script>
+  document.querySelectorAll('[data-print-button]').forEach((b) => b.addEventListener('click', () => window.print()));
+</script>
+
+<style>
+  .print-button {
+    margin-block: var(--space-3);
+  }
+</style>

@@ -1,0 +1,84 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  icon: IconName;
+  title: string;
+  description: string;
+  href: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { icon, title, description, href, headingLevel: H = 'h3' } = Astro.props;
+---
+
+<li class="condition-card">
+  <span class="condition-card__icon"><Icon name={icon} size={30} /></span>
+  <H class="condition-card__title"><a href={href}>{title}</a></H>
+  <p class="condition-card__desc">{description}</p>
+  <span class="condition-card__more" aria-hidden="true">Read more <Icon name="arrow-right" size={18} /></span>
+</li>
+
+<style>
+  .condition-card {
+    position: relative;
+    list-style: none;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: border-color 0.15s ease;
+  }
+  .condition-card:hover,
+  .condition-card:focus-within {
+    border-color: var(--teal);
+  }
+  .condition-card__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--teal-tint);
+    color: var(--teal-dark);
+    margin-bottom: 0.25rem;
+  }
+  .condition-card__title {
+    font-size: 1.375rem;
+    margin: 0;
+  }
+  .condition-card__title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+  /* Whole card is clickable through the heading link */
+  .condition-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+  .condition-card__title a:focus-visible {
+    box-shadow: none;
+  }
+  .condition-card__title a:focus-visible::after {
+    box-shadow: var(--focus);
+  }
+  .condition-card__desc {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.0625rem;
+  }
+  .condition-card__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--teal-dark);
+    font-weight: 800;
+    font-size: var(--fs-small);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+</style>

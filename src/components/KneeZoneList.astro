@@ -1,0 +1,48 @@
+---
+/** All five knee map areas as a plain numbered list (same approved text as the map). */
+import { kneeZones } from '../data/kneeZones';
+---
+
+<ol class="zone-list">
+  {
+    kneeZones.map((z) => (
+      <li>
+        <span class="zone-list__num" aria-hidden="true">
+          {z.n}
+        </span>
+        <p>
+          <strong>{z.title}</strong> {z.text}
+        </p>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .zone-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-3) 0;
+    display: grid;
+    gap: var(--space-2);
+    max-width: 820px;
+  }
+  .zone-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2);
+    align-items: start;
+  }
+  .zone-list__num {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid var(--teal);
+    font-weight: 800;
+  }
+  .zone-list p {
+    margin: 0.3rem 0 0;
+  }
+</style>

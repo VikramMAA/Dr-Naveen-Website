@@ -1,0 +1,21 @@
+---
+import UrgentBlock from './UrgentBlock.astro';
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+}
+const { headingLevel = 'h3' } = Astro.props;
+---
+
+<UrgentBlock
+  heading="Get your knee seen urgently if it:"
+  headingLevel={headingLevel}
+  items={[
+    'Is very painful',
+    'Cannot bend or take your weight',
+    'Is badly swollen or has changed shape',
+    'Locks, gives way or clicks painfully',
+    'Is hot and red, and you have a fever',
+  ]}
+>
+  <p class="urgent__note">Painless clicking is common and usually normal.</p>
+</UrgentBlock>

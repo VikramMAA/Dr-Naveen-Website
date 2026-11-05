@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  items: string[];
+  ordered?: boolean;
+}
+const { items, ordered = false } = Astro.props;
+const Tag = ordered ? 'ol' : 'ul';
+---
+
+<Tag class="checklist">
+  {
+    items.map((item) => (
+      <li>
+        <Icon name="check-circle" size={30} />
+        <span>{item}</span>
+      </li>
+    ))
+  }
+</Tag>
+
+<style>
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    display: grid;
+    gap: 0.9rem;
+    max-width: var(--measure);
+  }
+  .checklist li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    font-weight: 700;
+  }
+  .checklist :global(.icon) {
+    color: var(--teal);
+    margin-top: 0.05rem;
+  }
+</style>

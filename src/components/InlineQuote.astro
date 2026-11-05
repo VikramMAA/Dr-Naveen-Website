@@ -1,0 +1,46 @@
+---
+import { site } from '../config/site';
+interface Props {
+  text: string;
+  attribution?: string;
+}
+const { text, attribution = site.name } = Astro.props;
+---
+
+<figure class="inline-quote">
+  <blockquote><p>{text}</p></blockquote>
+  <figcaption>{attribution}</figcaption>
+</figure>
+
+<style>
+  .inline-quote {
+    margin: var(--space-3) 0;
+    background: var(--navy);
+    color: var(--offwhite);
+    border-radius: var(--radius);
+    padding: var(--space-4) var(--space-3);
+    max-width: 820px;
+  }
+  blockquote {
+    margin: 0;
+  }
+  blockquote p {
+    font-size: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+  }
+  figcaption {
+    font-weight: 700;
+  }
+  figcaption::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--teal);
+    vertical-align: middle;
+    margin-right: 0.6rem;
+  }
+</style>

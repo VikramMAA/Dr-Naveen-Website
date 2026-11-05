@@ -1,0 +1,64 @@
+---
+import { site } from '../config/site';
+interface Props {
+  text: string;
+  attribution?: string;
+}
+const { text, attribution = site.name } = Astro.props;
+---
+
+<section class="pull-quote" aria-label="A note from Dr Naveen">
+  <div class="container">
+    <figure>
+      <span class="pull-quote__bar" aria-hidden="true"></span>
+      <blockquote>
+        <p>{text}</p>
+      </blockquote>
+      <figcaption>{attribution}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .pull-quote {
+    background: var(--navy);
+    color: var(--offwhite);
+    padding-block: var(--space-6);
+  }
+  figure {
+    margin: 0;
+    max-width: 900px;
+  }
+  .pull-quote__bar {
+    display: block;
+    width: 64px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--teal);
+    margin-bottom: var(--space-3);
+  }
+  blockquote {
+    margin: 0;
+  }
+  blockquote p {
+    font-size: clamp(1.625rem, 1.3rem + 1.5vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    max-width: none;
+    margin: 0 0 var(--space-3);
+  }
+  figcaption {
+    font-weight: 700;
+    color: var(--offwhite);
+  }
+  figcaption::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--teal);
+    vertical-align: middle;
+    margin-right: 0.6rem;
+  }
+</style>

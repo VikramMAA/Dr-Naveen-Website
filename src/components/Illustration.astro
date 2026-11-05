@@ -1,0 +1,77 @@
+---
+/**
+ * Line illustrations: navy outline strokes (2.5px), rounded caps, teal fills for
+ * highlighted zones, teal tint for secondary zones. No realistic anatomy.
+ */
+interface Props {
+  name: 'knee' | 'shoulder' | 'knee-shoulder';
+  title?: string;
+  class?: string;
+}
+const { name, title, class: className } = Astro.props;
+const a11y = title ? { role: 'img' } : { 'aria-hidden': 'true' };
+const viewBox = name === 'knee-shoulder' ? '0 0 560 300' : name === 'knee' ? '0 0 260 300' : '0 0 280 300';
+---
+
+<svg class:list={['illus', className]} viewBox={viewBox} {...a11y} fill="none">
+  {title && <title>{title}</title>}
+  {
+    (name === 'knee' || name === 'knee-shoulder') && (
+      <g>
+        <path class="s" d="M70 10 C69 60 64 110 63 140 C62 162 56 180 60 199 C64 217 78 227 84 246 C90 270 89 292 91 300" />
+        <path class="s" d="M190 10 C191 60 196 110 197 140 C198 162 205 182 200 201 C195 219 179 228 173 246 C167 270 168 292 166 300" />
+        <ellipse class="t-tint" cx="130" cy="160" rx="32" ry="38" />
+        <ellipse class="s" cx="130" cy="160" rx="32" ry="38" />
+        <ellipse class="t-fill" cx="186" cy="196" rx="14" ry="22" />
+        <path class="s thin" d="M117 197 C118 215 119 230 120 246" />
+        <path class="s thin" d="M143 197 C142 215 141 230 140 246" />
+      </g>
+    )
+  }
+  {
+    (name === 'shoulder' || name === 'knee-shoulder') && (
+      <g transform={name === 'knee-shoulder' ? 'translate(290 0)' : ''}>
+        <path class="s" d="M150 0 C152 36 146 60 136 74" />
+        <path class="s" d="M136 74 C100 82 66 86 52 118 C40 146 42 190 48 236 L54 300" />
+        <path class="s" d="M118 300 L114 226 C112 196 114 178 124 166" />
+        <path class="s" d="M124 166 C130 200 132 250 130 300" />
+        <path class="s" d="M146 108 C182 98 216 104 252 96" />
+        <circle class="t-tint" cx="92" cy="132" r="28" />
+        <circle class="s" cx="92" cy="132" r="28" />
+        <path class="t-line" d="M64 110 C76 94 104 92 120 106" />
+        <path class="s" d="M122 108 C134 122 134 146 122 158" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .illus {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .s {
+    stroke: var(--navy);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .thin {
+    stroke-width: 2;
+  }
+  .t-tint {
+    fill: var(--teal-tint);
+  }
+  .t-fill {
+    fill: var(--teal);
+    opacity: 0.85;
+  }
+  .t-line {
+    stroke: var(--teal);
+    stroke-width: 6;
+    stroke-linecap: round;
+    fill: none;
+  }
+</style>

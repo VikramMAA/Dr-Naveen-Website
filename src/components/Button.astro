@@ -1,0 +1,104 @@
+---
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'on-dark';
+  icon?: IconName;
+  iconAfter?: IconName;
+  type?: 'button' | 'submit';
+  class?: string;
+  id?: string;
+  'aria-label'?: string;
+  [key: `data-${string}`]: unknown;
+  rel?: string;
+  target?: string;
+  block?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  icon,
+  iconAfter,
+  type = 'button',
+  class: className,
+  block = false,
+  ...rest
+} = Astro.props;
+const classes = ['button', `button--${variant}`, block && 'button--block', className];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      {icon && <Icon name={icon} size={22} />}
+      <span>
+        <slot />
+      </span>
+      {iconAfter && <Icon name={iconAfter} size={20} />}
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...rest}>
+      {icon && <Icon name={icon} size={22} />}
+      <span>
+        <slot />
+      </span>
+      {iconAfter && <Icon name={iconAfter} size={20} />}
+    </button>
+  )
+}
+
+<style>
+  /* Text is 20px and bold, so white on --teal counts as large text (4.2:1, AA needs 3:1). */
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 56px;
+    padding: 0.75rem 1.6rem;
+    border-radius: var(--radius-pill);
+    border: 2px solid transparent;
+    font: inherit;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  .button--block {
+    width: 100%;
+  }
+  .button--primary {
+    background: var(--teal);
+    color: var(--white);
+  }
+  .button--primary:hover {
+    background: var(--teal-dark);
+    color: var(--white);
+  }
+  .button--secondary {
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--navy);
+  }
+  .button--secondary:hover {
+    background: var(--navy);
+    color: var(--offwhite);
+  }
+  .button--on-dark {
+    background: transparent;
+    color: var(--offwhite);
+    border-color: var(--offwhite);
+  }
+  .button--on-dark:hover {
+    background: var(--offwhite);
+    color: var(--navy);
+  }
+</style>

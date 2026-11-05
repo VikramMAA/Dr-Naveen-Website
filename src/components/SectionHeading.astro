@@ -1,0 +1,52 @@
+---
+interface Props {
+  level?: 'h1' | 'h2' | 'h3';
+  id?: string;
+  sub?: string;
+  center?: boolean;
+  onDark?: boolean;
+}
+const { level: H = 'h2', id, sub, center = false, onDark = false } = Astro.props;
+---
+
+<div class:list={['section-heading', { 'section-heading--center': center, 'section-heading--dark': onDark }]}>
+  <H id={id}><slot /></H>
+  <span class="section-heading__bar" aria-hidden="true"></span>
+  {sub && <p class="section-heading__sub">{sub}</p>}
+</div>
+
+<style>
+  .section-heading {
+    margin-bottom: var(--space-4);
+  }
+  .section-heading :global(h1),
+  .section-heading :global(h2),
+  .section-heading :global(h3) {
+    margin-bottom: 0.9rem;
+  }
+  .section-heading__bar {
+    display: block;
+    width: 64px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--teal);
+  }
+  .section-heading__sub {
+    margin: 1rem 0 0;
+    font-size: var(--fs-lead);
+    color: var(--muted);
+  }
+  .section-heading--center {
+    text-align: center;
+  }
+  .section-heading--center .section-heading__bar {
+    margin-inline: auto;
+  }
+  .section-heading--center .section-heading__sub {
+    margin-inline: auto;
+  }
+  .section-heading--dark :global(h2),
+  .section-heading--dark .section-heading__sub {
+    color: var(--offwhite);
+  }
+</style>

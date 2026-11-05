@@ -1,0 +1,79 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  shortAnswer: string;
+  href: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { title, shortAnswer, href, headingLevel: H = 'h3' } = Astro.props;
+---
+
+<li class="guide-card">
+  <span class="guide-card__label">Patient guide</span>
+  <H class="guide-card__title"><a href={href}>{title}</a></H>
+  <p class="guide-card__answer">{shortAnswer}</p>
+  <span class="guide-card__more" aria-hidden="true">Read the guide <Icon name="arrow-right" size={18} /></span>
+</li>
+
+<style>
+  .guide-card {
+    position: relative;
+    list-style: none;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-top: 6px solid var(--teal);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .guide-card:hover,
+  .guide-card:focus-within {
+    border-color: var(--teal);
+  }
+  .guide-card__label {
+    color: var(--teal-dark);
+    font-weight: 800;
+    font-size: var(--fs-small);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .guide-card__title {
+    font-size: 1.375rem;
+    margin: 0;
+  }
+  .guide-card__title a {
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .guide-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+  .guide-card__title a:focus-visible {
+    box-shadow: none;
+  }
+  .guide-card__title a:focus-visible::after {
+    box-shadow: var(--focus);
+  }
+  .guide-card__answer {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.0625rem;
+  }
+  .guide-card__more {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    color: var(--teal-dark);
+    font-weight: 800;
+    font-size: var(--fs-small);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+</style>

@@ -1,0 +1,136 @@
+---
+import { site, socialLinks, nav } from '../config/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{site.name}</p>
+      <p>{site.title} | {site.qualifications}</p>
+      <p>
+        Consultations: {site.hospital.name}, {site.hospital.locality}, {site.hospital.city} |
+        <a href={site.phone.href}>{site.phone.display}</a>
+      </p>
+      <p class="site-footer__tag">{site.hashtag}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    {
+      socialLinks.length > 0 && (
+        <ul class="site-footer__social" aria-label="Social profiles">
+          {socialLinks.map((s) => (
+            <li>
+              <a href={s.url} rel="noopener me">
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    <div class="site-footer__legal">
+      <ul>
+        <li><a href="/medical-disclaimer">Medical disclaimer</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+      <p>&copy; {year} {site.name}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy);
+    color: var(--offwhite);
+    padding-block: var(--space-5) var(--space-4);
+    margin-top: 0;
+    font-size: var(--fs-small);
+  }
+  .site-footer a {
+    color: var(--offwhite);
+  }
+  .site-footer a:hover {
+    color: var(--teal-tint);
+  }
+  .site-footer a:focus-visible {
+    box-shadow:
+      0 0 0 3px var(--navy),
+      0 0 0 6px var(--offwhite);
+  }
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+  @media (min-width: 900px) {
+    .site-footer__inner {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .site-footer__legal {
+      grid-column: 1 / -1;
+    }
+  }
+  .site-footer p {
+    margin: 0 0 0.5rem;
+    max-width: none;
+  }
+  .site-footer__name {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem !important;
+  }
+  .site-footer__tag {
+    font-weight: 800;
+    margin-top: 0.75rem !important;
+  }
+  .site-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .site-footer__nav ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 1rem;
+  }
+  .site-footer__nav a,
+  .site-footer__social a,
+  .site-footer__legal a {
+    display: inline-block;
+    padding-block: 0.6rem;
+  }
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.25rem;
+  }
+  .site-footer__legal {
+    border-top: 1px solid rgba(247, 244, 239, 0.25);
+    padding-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+  }
+  .site-footer__legal ul {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .site-footer__legal p {
+    margin: 0;
+  }
+</style>

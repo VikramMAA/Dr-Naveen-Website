@@ -1,0 +1,60 @@
+---
+/**
+ * Dr Naveen's headshot. Expected at src/assets/dr-naveen-headshot.jpg.
+ * Until the file exists, a neutral placeholder card is shown (listed in REVIEW.md).
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site } from '../config/site';
+
+interface Props {
+  priority?: boolean;
+  class?: string;
+  widths?: number[];
+  sizes?: string;
+}
+const { priority = false, class: className, widths = [320, 480, 640, 960], sizes = '(min-width: 1024px) 440px, (min-width: 768px) 360px, 80vw' } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/dr-naveen-headshot.{jpg,jpeg,png,webp}', { eager: true });
+const img = Object.values(files)[0]?.default;
+---
+
+{
+  img ? (
+    <Image
+      src={img}
+      alt={`${site.name}, ${site.title}`}
+      widths={widths}
+      sizes={sizes}
+      format="avif"
+      class:list={['headshot', className]}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+    />
+  ) : (
+    <div class:list={['headshot', 'headshot--placeholder', className]} role="img" aria-label={`Photo of ${site.name} (to be added)`}>
+      <span>Photo of {site.name}</span>
+    </div>
+  )
+}
+
+<style>
+  .headshot {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-photo);
+  }
+  .headshot--placeholder {
+    display: grid;
+    place-items: center;
+    background: var(--white);
+    border: 2px dashed var(--line);
+    color: var(--muted);
+    font-weight: 700;
+    text-align: center;
+    padding: var(--space-3);
+  }
+</style>

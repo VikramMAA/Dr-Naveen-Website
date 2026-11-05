@@ -1,0 +1,74 @@
+---
+/**
+ * Urgent signs. Red border and red warning icon (red means "act now").
+ * Navy text on white. Red is used nowhere else on the site.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  heading: string;
+  items?: string[];
+  headingLevel?: 'h2' | 'h3';
+}
+const { heading, items = [], headingLevel: H = 'h3' } = Astro.props;
+---
+
+<aside class="urgent">
+  <div class="urgent__head">
+    <span class="urgent__icon"><Icon name="warning" size={30} /></span>
+    <H class="urgent__heading">{heading}</H>
+  </div>
+  {
+    items.length > 0 && (
+      <ul class="urgent__list">
+        {items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+  <slot />
+</aside>
+
+<style>
+  .urgent {
+    background: var(--white);
+    border: 3px solid var(--red);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+    color: var(--navy);
+    max-width: 760px;
+  }
+  .urgent__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .urgent__icon {
+    color: var(--red);
+    display: inline-flex;
+  }
+  .urgent__heading {
+    font-size: var(--fs-h3);
+    margin: 0;
+  }
+  .urgent__list {
+    margin: 0;
+    padding-left: 1.4em;
+  }
+  .urgent__list li {
+    font-weight: 700;
+  }
+  .urgent__list li + li {
+    margin-top: 0.35rem;
+  }
+  .urgent__list li::marker {
+    color: var(--red);
+  }
+  .urgent :global(.urgent__note) {
+    margin: 1rem 0 0;
+    color: var(--navy);
+    font-size: var(--fs-small);
+  }
+</style>
