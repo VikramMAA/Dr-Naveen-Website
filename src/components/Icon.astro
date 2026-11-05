@@ -35,7 +35,7 @@ interface Props {
 }
 
 const { name, size = 24, title, class: className, strokeWidth = 2 } = Astro.props;
-const a11y = title ? { role: 'img' } : { 'aria-hidden': 'true', focusable: 'false' };
+const a11y = title ? { role: 'img' as const } : { 'aria-hidden': 'true' as const, focusable: 'false' as const };
 ---
 
 <svg

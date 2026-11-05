@@ -19,7 +19,7 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     <div class="site-header__actions">
       <a class="header-call" href={site.phone.href}>
         <Icon name="phone" size={20} />
-        <span>Call<span class="header-call__number"> {site.phone.display}</span></span>
+        <span>Call<span class="visually-hidden"> {site.phone.display}</span></span>
       </a>
       <button
         type="button"
@@ -117,6 +117,8 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     padding-block: 0.6rem;
   }
   .wordmark {
+    flex-shrink: 0;
+    white-space: nowrap;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -163,17 +165,9 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     background: var(--teal-dark);
     color: var(--white);
   }
-  .header-call__number {
-    display: none;
-  }
   @media (min-width: 768px) {
     .header-call {
       display: inline-flex;
-    }
-  }
-  @media (min-width: 1280px) {
-    .header-call__number {
-      display: inline;
     }
   }
 
@@ -276,7 +270,7 @@ const isCurrent = (href: string) => (href === '/' ? currentPath === '/' : curren
     .primary-nav a {
       border: 0;
       font-size: 1.0625rem;
-      padding: 0.7rem 0.6rem;
+      padding: 0.7rem 0.5rem;
       white-space: nowrap;
     }
   }

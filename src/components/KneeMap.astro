@@ -17,12 +17,15 @@ interface Props {
 const { id = 'knee-map' } = Astro.props;
 
 import { kneeZones as zones } from '../data/kneeZones';
-const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
+// Visible part of the 480 x 480 drawing (cropped so the leg fills the figure on phones)
+const VB = { x: 100, y: 40, w: 360, h: 400 };
+const px = (v: number) => `${(((v - VB.x) / VB.w) * 100).toFixed(3)}%`;
+const py = (v: number) => `${(((v - VB.y) / VB.h) * 100).toFixed(3)}%`;
 ---
 
 <div class="knee-map" id={id} data-knee-map>
   <div class="knee-map__figure">
-    <svg class="knee-map__svg" viewBox="0 0 480 480" role="img" aria-labelledby={`${id}-svg-title`}>
+    <svg class="knee-map__svg" viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} role="img" aria-labelledby={`${id}-svg-title`}>
       <title id={`${id}-svg-title`}>
         Line drawing of a right knee seen from the front, with five numbered areas: 1 front, 2 inner side on the right of the
         drawing, 3 outer side on the left, 4 back, and 5 the whole knee.
@@ -31,8 +34,8 @@ const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
       <ellipse class="zone zone--whole" data-zone="5" cx="240" cy="250" rx="128" ry="108"></ellipse>
 
       <!-- 2 and 3: side zones -->
-      <ellipse class="zone zone--side" data-zone="2" cx="314" cy="252" rx="28" ry="44"></ellipse>
-      <ellipse class="zone zone--side" data-zone="3" cx="166" cy="252" rx="28" ry="44"></ellipse>
+      <ellipse class="zone zone--side" data-zone="2" cx="310" cy="254" rx="24" ry="40"></ellipse>
+      <ellipse class="zone zone--side" data-zone="3" cx="170" cy="254" rx="24" ry="40"></ellipse>
 
       <!-- Leg outline: outer side on the left, inner side on the right -->
       <path class="stroke" d="M150 0 C148 60 141 130 139 186 C137 216 129 240 135 266 C141 290 160 304 168 330 C176 370 174 420 178 480"></path>
@@ -64,7 +67,7 @@ const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
           data-zone-btn={z.n}
           aria-pressed="false"
           aria-controls={`${id}-zone-${z.n}`}
-          style={`left:${pct(z.x)};top:${pct(z.y)}`}
+          style={`left:${px(z.x)};top:${py(z.y)}`}
         >
           <span class="knee-map__num" aria-hidden="true">
             {z.n}
@@ -132,9 +135,9 @@ const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
   .knee-map__figure {
     position: relative;
     width: 100%;
-    max-width: 460px;
+    max-width: 440px;
     margin-inline: auto;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 360 / 400;
   }
   .knee-map__svg {
     display: block;
@@ -241,8 +244,9 @@ const pct = (v: number) => `${((v / 480) * 100).toFixed(3)}%`;
   }
   .knee-map__btn[aria-pressed='true'] .knee-map__num {
     background: var(--teal);
-    border-color: var(--teal);
+    border-color: var(--white);
     color: var(--white);
+    box-shadow: 0 0 0 2px var(--teal);
   }
   .knee-map__btn:focus-visible {
     box-shadow: none;

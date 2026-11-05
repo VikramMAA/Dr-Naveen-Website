@@ -3,7 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 const faq = z.object({ question: z.string(), answer: z.string() });
-const source = z.object({ label: z.string(), url: z.string().url() });
+const source = z.object({ label: z.string(), url: z.url() });
 
 const shared = {
   title: z.string(),

@@ -9,7 +9,7 @@ interface Props {
   class?: string;
 }
 const { name, title, class: className } = Astro.props;
-const a11y = title ? { role: 'img' } : { 'aria-hidden': 'true' };
+const a11y = title ? { role: 'img' as const } : { 'aria-hidden': 'true' as const };
 const viewBox = name === 'knee-shoulder' ? '0 0 560 300' : name === 'knee' ? '0 0 260 300' : '0 0 280 300';
 ---
 
