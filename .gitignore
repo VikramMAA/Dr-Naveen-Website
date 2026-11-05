@@ -6,4 +6,4 @@ dist/
 .env.*
 .DS_Store
 npm-debug.log*
-qa/lighthouse/*.html
+qa/lighthouse/

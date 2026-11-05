@@ -19,8 +19,9 @@ export default defineConfig({
   ],
   vite: {
     build: {
-      // Keep scripts as external files so the Content-Security-Policy can use script-src 'self'.
-      assetsInlineLimit: (filePath) => (filePath.endsWith('.js') ? false : undefined),
+      // Keep scripts and fonts as external files so the Content-Security-Policy can use
+      // script-src 'self' and font-src 'self' (no inline scripts, no data: fonts).
+      assetsInlineLimit: (filePath) => (/\.(js|woff2?)$/.test(filePath) ? false : undefined),
     },
   },
 });

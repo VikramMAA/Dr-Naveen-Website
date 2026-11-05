@@ -9,8 +9,7 @@ const year = new Date().getFullYear();
       <p class="site-footer__name">{site.name}</p>
       <p>{site.title} | {site.qualifications}</p>
       <p>
-        Consultations: {site.hospital.name}, {site.hospital.locality}, {site.hospital.city} |
-        <a href={site.phone.href}>{site.phone.display}</a>
+        Consultations: {site.hospital.name}, {site.hospital.locality}, {site.hospital.city} |{' '}<a href={site.phone.href}>{site.phone.display}</a>
       </p>
       <p class="site-footer__tag">{site.hashtag}</p>
     </div>

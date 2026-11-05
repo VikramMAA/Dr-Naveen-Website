@@ -11,7 +11,10 @@
     "lint:copy": "node scripts/lint-copy.mjs",
     "test:links": "node scripts/test-links.mjs",
     "test:schema": "node scripts/test-schema.mjs",
-    "qa": "npm run build && npm run lint:copy && npm run test:links && npm run test:schema"
+    "qa": "npm run build && npm run lint:copy && npm run test:links && npm run test:schema",
+    "test:kneemap": "node scripts/test-kneemap.mjs",
+    "qa:screenshots": "node scripts/screenshots.mjs",
+    "qa:lighthouse": "node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.1.2",
